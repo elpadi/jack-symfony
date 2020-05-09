@@ -1,0 +1,27 @@
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+	background-color:white;
+	color: #6c6868;
+	min-height: 100vh;
+}
+#container {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+#masthead > .main-nav { z-index: 60; }
+#masthead > .submenu { z-index: 50; }
+#masthead > .subnav { z-index: 40; }
+#masthead::after { z-index: 30; }
+#masthead { z-index: 20; }
+#content { z-index: 10; }
+.page-background { z-index: 1; }
