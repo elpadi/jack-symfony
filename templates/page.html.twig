@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% if intro is defined %}
+<aside id="intro" data-end-url="{{ path(intro.endRoute) }}">
+	<noscript>
+		{% for img in intro.images %}
+		<img src="{{ img.path }}" {{ img.getimagesize[3] | raw }}>
+		{% endfor %}
+	</noscript>
+</aside>
+{% endif %}
+
+<main id="page-content" data-tags="{{ page.tags ?? '' }}">{{ page.content | raw }}</main>
+
+{% endblock %}
+

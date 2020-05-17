@@ -4,6 +4,8 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Magazine\Intro;
+use App\Entity\Pages\JackBlackPussyCat;
 
 class FrontendController extends AbstractController
 {
@@ -13,16 +15,23 @@ class FrontendController extends AbstractController
 	 */    
 	public function home(): Response
 	{
-		return $this->jbpc();
+		$data = (new JackBlackPussyCat())->getPageData();
+		if (!isset($_COOKIE['has_seen_intro']) || $_COOKIE['has_seen_intro'] != '1') {
+			$data['intro'] = [
+				'images' => (new Intro())->fetchImages(),
+				'endRoute' => 'jbpc',
+			];
+		}
+		return $this->page('jbpc', $data);
 	}
 
 	protected function page(string $name, array $data = []): Response
     {
-		return $this->render("routes/$name.html.twig", array_merge([], $data));
+		return $this->render("routes/$name.html.twig", $data);
     }
 
 	/**
-	 * @Route("/jbpc")
+	 * @Route("/jbpc", name="jbpc")
 	 */    
 	public function jbpc(): Response
     {
@@ -35,7 +44,7 @@ class FrontendController extends AbstractController
     }
 
 	/**
-	 * @Route("/about")
+	 * @Route("/about", name="about")
 	 */    
 	public function about(): Response
     {
@@ -43,7 +52,7 @@ class FrontendController extends AbstractController
     }
 
 	/**
-	 * @Route("/contact")
+	 * @Route("/contact", name="contact")
 	 */    
 	public function contact(): Response
     {
@@ -51,7 +60,7 @@ class FrontendController extends AbstractController
     }
 
 	/**
-	 * @Route("/event")
+	 * @Route("/event", name="event")
 	 */    
 	public function event(): Response
     {
@@ -59,7 +68,7 @@ class FrontendController extends AbstractController
     }
 
 	/**
-	 * @Route("/issues")
+	 * @Route("/issues", name="issues")
 	 */    
 	public function issues(): Response
     {
@@ -75,7 +84,7 @@ class FrontendController extends AbstractController
     }
 
 	/**
-	 * @Route("/new")
+	 * @Route("/new", name="new")
 	 */    
 	public function page_new(): Response
     {

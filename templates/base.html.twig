@@ -3,21 +3,60 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>{{ meta.title }}</title>
-	<meta name="description" content="{{ meta.description }}">
+	<title>{{ page.title }}</title>
+	<meta name="description" content="{{ page.description }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="manifest" href="/site.webmanifest">
 	<link rel="apple-touch-icon" href="/favicon/icon.png">
 	<!-- Place favicon.ico in the root directory -->
 
-	{% block opengraph %}{% endblock %}
-	{% block twittercard %}{% endblock %}
-	{% block schema %}{% endblock %}
-	{% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
+	{% block opengraph %}
+	<meta property="og:image" content="">
+	<meta property="og:type" content="website">
+	{% endblock %}
+
+	{% block twittercard %}
+	<meta property="twitter:card" content="summary">
+	<meta property="twitter:site" content="@thejackmag">
+	<meta property="twitter:creator" content="@thejackmag">
+	{% endblock %}
+
+	{% block schema %}
+	{% endblock %}
+
+	<style>{% include 'styles.css' %}</style>
+	<link rel="stylesheet" rel="preload" as="style" href="/build/app.css">
+	<!-- {{ encore_entry_link_tags('app') }} -->
+
+	<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
 </head>
 
 <body>
+
+	{% block header %}
+	<header>
+		<nav class="foreground tc lowercase main-nav">
+			<span class="far-left tl">
+				<h1><a class="plain icon-btn" id="header__logo" data-section="home" href="{{ path('home') }}"><img id="header__logo__img" class="icon__img" src="{{ site.logo }}" alt="The Jack Mag"></a></h1>
+			</span>
+			<ul id="header__nav" class="horizontal-list floats">
+				<li><a class="plain " data-section="about" href="{{ path('about') }}">About</a></li>
+				<li><a class="plain " data-section="issues" href="{{ path('issues') }}">Issues</a></li>
+				<li><a class="plain " data-section="contact" href="{{ path('contact') }}">Contact</a></li>
+				<li><a class="plain " data-section="event" href="{{ path('event') }}">Event</a></li>
+				<li><a class="plain " data-section="shop" href="https://shop.thejackmag.com/">Shop</a></li>
+			</ul>
+			<span class="far-right tl">
+				<ul id="header__social" class="social-buttons horizontal-list floats tc">
+					<li class="button--facebook"><a class="plain svg-button" target="_blank" href="https://www.facebook.com/thejackmag/"><img src="{{ site.icons.fb }}" alt="Like us on Facebook"></a></li>
+					<li class="button--twitter"><a class="plain svg-button" target="_blank" href="https://twitter.com/thejackmag"><img src="{{ site.icons.twitter }}" alt="Follow us on Twitter"></a></li>
+					<li class="button--instagram"><a class="plain svg-button" target="_blank" href="https://www.instagram.com/thejackmag/"><img src="{{ site.icons.instagram }}" alt="Follow us on Instagram"></a></li>
+				</ul>
+			</span>
+		</nav>
+	</header>
+	{% endblock %}
 
 	{% block body %}{% endblock %}
 	{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
