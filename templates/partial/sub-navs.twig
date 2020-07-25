@@ -1,0 +1,7 @@
+<ul class="subnav">
+    {% for issue in site.issues %}
+    <li data-section="issue" data-slug="{{ issue.slug }}">
+        <a href="{{ issue.url }}">{{ issue.title }}</a>
+    </li>
+    {% endfor %}
+</ul>

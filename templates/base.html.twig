@@ -35,23 +35,20 @@
 <body>
 
 	{% block header %}
-	<header>
+	<header id="masthead">
 		<nav class="foreground tc lowercase main-nav">
 			<span class="far-left tl">
 				<h1><a class="plain icon-btn" id="header__logo" data-section="home" href="{{ path('home') }}"><img id="header__logo__img" class="icon__img" src="{{ site.logo }}" alt="The Jack Mag"></a></h1>
 			</span>
 			<ul id="header__nav" class="horizontal-list floats">
-				<li><a class="plain " data-section="about" href="{{ path('about') }}">About</a></li>
-				<li><a class="plain " data-section="issues" href="{{ path('issues') }}">Issues</a></li>
-				<li><a class="plain " data-section="contact" href="{{ path('contact') }}">Contact</a></li>
-				<li><a class="plain " data-section="event" href="{{ path('event') }}">Event</a></li>
-				<li><a class="plain " data-section="shop" href="https://shop.thejackmag.com/">Shop</a></li>
+                {% include 'partial/main-nav.twig' %}
 			</ul>
+            {% include 'partial/sub-navs.twig' %}
 			<span class="far-right tl">
 				<ul id="header__social" class="social-buttons horizontal-list floats tc">
-					<li class="button--facebook"><a class="plain svg-button" target="_blank" href="https://www.facebook.com/thejackmag/"><img src="{{ site.icons.fb }}" alt="Like us on Facebook"></a></li>
-					<li class="button--twitter"><a class="plain svg-button" target="_blank" href="https://twitter.com/thejackmag"><img src="{{ site.icons.twitter }}" alt="Follow us on Twitter"></a></li>
-					<li class="button--instagram"><a class="plain svg-button" target="_blank" href="https://www.instagram.com/thejackmag/"><img src="{{ site.icons.instagram }}" alt="Follow us on Instagram"></a></li>
+                    {% for social in site.social %}
+                    <li class="button--{{ social.name }}"><a class="plain svg-button" target="_blank" href="{{ social.url }}" title="{{ social.title }}"><img src="{{ social.icon }}" alt="{{ social.name }}"></a></li>
+                    {% endfor %}
 				</ul>
 			</span>
 		</nav>

@@ -1,0 +1,32 @@
+#masthead .subnav {
+	font-size: 13px;
+	margin: auto;
+}
+#masthead .subnav,
+#masthead .subnav a {
+	height: 25px;
+}
+#masthead .subnav a {
+	line-height: 15px;
+	border-bottom-color: white;
+}
+#masthead .subnav a:hover {
+	border-color: rgb(195,195,195);
+}
+body[data-path="issues_single"] #masthead .subnav {
+}
+@media (min-width: 670px) {
+	#masthead {
+		height: 65px;
+	}
+	#masthead .subnav,
+	#masthead .subnav a {
+		height: 30px;
+	}
+	#masthead .subnav a {
+		line-height: 21px;
+	}
+	#masthead .subnav {
+		top: 35px;
+	}
+}

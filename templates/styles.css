@@ -78,3 +78,7 @@ header .far-right {
 	font: 16px/1.5 "Arial Black",Arial,sans-serif;
 	color: #a6a6a6;
 }
+
+.js .subnav {
+    display: none;
+}

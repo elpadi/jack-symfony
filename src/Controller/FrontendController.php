@@ -10,85 +10,93 @@ use App\Entity\Pages\JackBlackPussyCat;
 class FrontendController extends AbstractController
 {
 
-	/**
-	 * @Route("/", name="home")
-	 */    
-	public function home(): Response
-	{
-		$data = (new JackBlackPussyCat())->getPageData();
-		if (!isset($_COOKIE['has_seen_intro']) || $_COOKIE['has_seen_intro'] != '1') {
-			$data['intro'] = [
-				'images' => (new Intro())->fetchImages(),
-				'endRoute' => 'jbpc',
-			];
-		}
-		return $this->page('jbpc', $data);
-	}
-
-	protected function page(string $name, array $data = []): Response
+    /**
+     * @Route("/", name="home")
+     */    
+    public function home(JackBlackPussyCat $jbpc): Response
     {
-		return $this->render("routes/$name.html.twig", $data);
+        $data = $jbpc->getPageData();
+        if (!isset($_COOKIE['has_seen_intro']) || $_COOKIE['has_seen_intro'] != '1') {
+            $data['intro'] = [
+                'images' => (new Intro())->fetchImages(),
+                'endRoute' => 'jbpc',
+            ];
+        }
+        return $this->page('jbpc', $data);
     }
 
-	/**
-	 * @Route("/jbpc", name="jbpc")
-	 */    
-	public function jbpc(): Response
+    protected function page(string $name, array $data = []): Response
     {
-		return $this->page(__FUNCTION__, [
-			'meta' => [
-				'title' => 'Jack Black Pussy Cat',
-				'description' => 'New issue',
-			],
-		]);
+        return $this->render("routes/$name.html.twig", $data);
     }
 
-	/**
-	 * @Route("/about", name="about")
-	 */    
-	public function about(): Response
+    /**
+     * @Route("/jbpc", name="jbpc")
+     */    
+    public function jbpc(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, [
+            'meta' => [
+                'title' => 'Jack Black Pussy Cat',
+                'description' => 'New issue',
+            ],
+        ]);
     }
 
-	/**
-	 * @Route("/contact", name="contact")
-	 */    
-	public function contact(): Response
+    /**
+     * @Route("/about", name="about")
+     */    
+    public function about(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__);
     }
 
-	/**
-	 * @Route("/event", name="event")
-	 */    
-	public function event(): Response
+    /**
+     * @Route("/contact", name="contact")
+     */    
+    public function contact(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__);
     }
 
-	/**
-	 * @Route("/issues", name="issues")
-	 */    
-	public function issues(): Response
+    /**
+     * @Route("/event", name="event")
+     */    
+    public function event(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__);
     }
 
-	/**
-	 * @Route("/special-project")
-	 */    
-	public function special_project(): Response
+    /**
+     * @Route("/issues", name="issues")
+     */    
+    public function issues(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__);
     }
 
-	/**
-	 * @Route("/new", name="new")
-	 */    
-	public function page_new(): Response
+    /**
+     * @Route("/issues/{id<\d+>}-{slug}/layouts", name="issue-layouts")
+     */    
+    public function issueLayouts(): Response
     {
-		return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__);
+    }
+
+    /**
+     * @Route("/special-project")
+     */    
+    public function special_project(): Response
+    {
+        return $this->page(__FUNCTION__);
+    }
+
+    /**
+     * @Route("/new", name="new")
+     */    
+    public function page_new(): Response
+    {
+        return $this->page(__FUNCTION__);
     }
 
 }
