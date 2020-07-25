@@ -4,35 +4,40 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Magazine\Intro;
-use App\Entity\Pages\JackBlackPussyCat;
+use App\Entity\Pages\{
+    Page,
+    Home
+};
+use Twig\Error\LoaderError;
 
 class FrontendController extends AbstractController
 {
+    protected function page(string $name, $dataOrPage): Response
+    {
+        $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
+        try {
+            return $this->render("routes/$name.html.twig", $data);
+        }
+        catch (LoaderError $e) {
+            if (substr_count($e->getMessage(), 'find')) {
+                return $this->render("page.html.twig", $data);
+            }
+            throw $e;
+        }
+        return 'Unspecified error';
+    }
 
     /**
      * @Route("/", name="home")
-     */    
-    public function home(JackBlackPussyCat $jbpc): Response
+     */
+    public function home(Home $home): Response
     {
-        $data = $jbpc->getPageData();
-        if (!isset($_COOKIE['has_seen_intro']) || $_COOKIE['has_seen_intro'] != '1') {
-            $data['intro'] = [
-                'images' => (new Intro())->fetchImages(),
-                'endRoute' => 'jbpc',
-            ];
-        }
-        return $this->page('jbpc', $data);
-    }
-
-    protected function page(string $name, array $data = []): Response
-    {
-        return $this->render("routes/$name.html.twig", $data);
+        return $this->page(__FUNCTION__, $home);
     }
 
     /**
      * @Route("/jbpc", name="jbpc")
-     */    
+     */
     public function jbpc(): Response
     {
         return $this->page(__FUNCTION__, [
@@ -45,31 +50,31 @@ class FrontendController extends AbstractController
 
     /**
      * @Route("/about", name="about")
-     */    
-    public function about(): Response
+     */
+    public function about(Page $page): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
      * @Route("/contact", name="contact")
-     */    
-    public function contact(): Response
+     */
+    public function contact(Page $page): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
      * @Route("/event", name="event")
-     */    
-    public function event(): Response
+     */
+    public function event(Page $page): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
      * @Route("/issues", name="issues")
-     */    
+     */
     public function issues(): Response
     {
         return $this->page(__FUNCTION__);
@@ -77,7 +82,7 @@ class FrontendController extends AbstractController
 
     /**
      * @Route("/issues/{id<\d+>}-{slug}/layouts", name="issue-layouts")
-     */    
+     */
     public function issueLayouts(): Response
     {
         return $this->page(__FUNCTION__);
@@ -85,7 +90,7 @@ class FrontendController extends AbstractController
 
     /**
      * @Route("/special-project")
-     */    
+     */
     public function special_project(): Response
     {
         return $this->page(__FUNCTION__);
@@ -93,10 +98,9 @@ class FrontendController extends AbstractController
 
     /**
      * @Route("/new", name="new")
-     */    
+     */
     public function page_new(): Response
     {
         return $this->page(__FUNCTION__);
     }
-
 }

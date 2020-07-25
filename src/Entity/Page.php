@@ -31,7 +31,21 @@ trait Page
         }
     }
 
-    protected function getDefaultPageData(): array
+    protected function getExtraData(): array
+    {
+        return [];
+    }
+
+    protected function fetchPageData(string $pagePath): array
+    {
+        return $this->fetchCockpitData(
+            'collections:findOne',
+            'pages',
+            ['path' => $pagePath]
+        );
+    }
+
+    protected function getDefaultPageData(string $pagePath): array
     {
         $this->images = new PathPackage('/img', new EmptyVersionStrategy());
 
@@ -53,6 +67,7 @@ trait Page
                 'icons' => [
                 ],
             ],
+            'page' => $this->fetchPageData($pagePath),
         ];
     }
 }
