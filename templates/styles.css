@@ -27,19 +27,19 @@ img {
 	height: auto;
     outline-style: none;
 }
-body > header {
+#masthead {
 	background-color: white;
 	position: sticky;
 	top: 0;
 	border-bottom: 1px solid #ededed;
 }
-header ul {
+#masthead ul {
 	display: flex;
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
 }
-header li {
+#masthead li {
 	margin: 0 4px 8px;
 }
 #header__logo {
@@ -49,6 +49,9 @@ header li {
 #header__logo__img {
 	height: 38px;
 	width: auto;
+}
+#masthead .subnav {
+    display: none;
 }
 #header__nav {
 	justify-content: center;
@@ -70,7 +73,13 @@ header .far-right {
 }
 #header__social {
 	justify-content: flex-end;
+}
+#header__social a {
+    display: block;
 	opacity: 0.2;
+}
+#header__social a:hover {
+	opacity: 0.6;
 }
 #header__social .button--facebook { margin-right: 2px; }
 #header__social .button--twitter { margin-right: 7px; }
@@ -79,11 +88,45 @@ header .far-right {
 	width: auto;
 }
 
+@media (min-width: 670px) {
+    #masthead {
+        border-bottom-style: none;
+    }
+    #masthead > nav {
+        display: flex;
+        justify-content: space-between;
+    }
+    header .far-right {
+        position: relative;
+    }
+    #header__logo__img {
+        height: 63px;
+    }
+    #header__nav {
+        font-size: 1.05rem;
+        letter-spacing: 2px;
+    }
+    #header__nav a {
+        margin: 0 15px;
+        border-top: 3px solid white;
+        padding-top: 5px;
+        display: block;
+        text-decoration: none;
+    }
+    #header__nav li.selected a,
+    #header__nav a:hover {
+        color: black;
+        border-top-color: currentColor;
+    }
+    #header__social img {
+        height: 18px;
+    }
+}
+
 #page-content {
 	margin-top: 15%;
 	padding: 0 10px;
-	font: 16px/1.5 "Arial Black",Arial,sans-serif;
-	color: #a6a6a6;
+	font: 18px/1.5 "Lusitana", serif;
 }
 #page-content .text-content {
     max-width: 30em;
@@ -96,6 +139,8 @@ header .far-right {
 .event__details {
     text-align: center;
     margin: 1em 0 3em;
+    font-size: 0.9em;
+    line-height: 1;
 }
 .event__details p {
     margin: 0;
