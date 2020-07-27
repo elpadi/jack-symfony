@@ -6,19 +6,26 @@ body {
 	color: #6c6868;
 	min-height: 100vh;
 }
+.js .hide-if-js,
+.js .subnav {
+    display: none;
+}
 header h1 {
 	margin: 0;
 }
 a {
 	text-decoration: none;
-	color: black;
 }
 a:hover {
 	text-decoration: underline;
 }
+a:not(.plain) {
+	color: black;
+}
 img {
 	max-width: 100%;
 	height: auto;
+    outline-style: none;
 }
 body > header {
 	background-color: white;
@@ -78,7 +85,26 @@ header .far-right {
 	font: 16px/1.5 "Arial Black",Arial,sans-serif;
 	color: #a6a6a6;
 }
+#page-content .text-content {
+    max-width: 30em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    text-align: justify;
+}
 
-.js .subnav {
-    display: none;
+.event__details {
+    text-align: center;
+    margin: 1em 0 3em;
+}
+.event__details p {
+    margin: 0;
+}
+.event__images {
+    max-width: 640px;
+    margin: 0 auto;
+}
+.event__images img {
+    display: block;
+    margin: 2em auto;
 }

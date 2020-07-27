@@ -1,0 +1,11 @@
+{% extends 'page.html.twig' %}
+
+{% block body %}
+
+<main id="page-content" data-tags="{{ page.tags ?? '' }}">
+    {% for event in events %}
+    {% include 'partial/event.html.twig' %}
+    {% endfor %}
+</main>
+
+{% endblock %}

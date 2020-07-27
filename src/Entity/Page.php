@@ -1,9 +1,6 @@
 <?php
 namespace App\Entity;
 
-use Symfony\Component\Asset\PathPackage;
-use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
-
 trait Page
 {
     use Cockpit;
@@ -13,7 +10,7 @@ trait Page
     protected function addSocialIcons(&$social): void
     {
         foreach ($social as &$site) {
-            $site['icon'] = $this->images->getUrl('icons/' . $site['name'] . '.svg');
+            $site['icon'] = $this->publicPath->getUrl('img/icons/' . $site['name'] . '.svg');
         }
     }
 
@@ -47,8 +44,6 @@ trait Page
 
     protected function getDefaultPageData(string $pagePath): array
     {
-        $this->images = new PathPackage('/img', new EmptyVersionStrategy());
-
         $social = $this->fetchCockpitData('collections:find', 'socialmenu');
         $this->addSocialIcons($social);
 
@@ -60,7 +55,7 @@ trait Page
 
         return [
             'site' => [
-                'logo' => $this->images->getUrl('logo.svg'),
+                'logo' => $this->publicPath->getUrl('img/logo.svg'),
                 'social' => $social,
                 'issues' => $issues,
                 'mainmenu' => $mainmenu,

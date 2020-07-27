@@ -6,7 +6,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Pages\{
     Page,
-    Home
+    Home,
+    Event
 };
 use Twig\Error\LoaderError;
 
@@ -19,7 +20,7 @@ class FrontendController extends AbstractController
             return $this->render("routes/$name.html.twig", $data);
         }
         catch (LoaderError $e) {
-            if (substr_count($e->getMessage(), 'find')) {
+            if (substr_count($e->getMessage(), "routes/$name.html.twig")) {
                 return $this->render("page.html.twig", $data);
             }
             throw $e;
@@ -30,9 +31,9 @@ class FrontendController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function home(Home $home): Response
+    public function home(Home $homePage): Response
     {
-        return $this->page(__FUNCTION__, $home);
+        return $this->page(__FUNCTION__, $homePage);
     }
 
     /**
@@ -67,9 +68,9 @@ class FrontendController extends AbstractController
     /**
      * @Route("/event", name="event")
      */
-    public function event(Page $page): Response
+    public function event(Event $eventsPage): Response
     {
-        return $this->page(__FUNCTION__, $page);
+        return $this->page(__FUNCTION__, $eventsPage);
     }
 
     /**

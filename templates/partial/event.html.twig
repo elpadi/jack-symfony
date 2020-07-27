@@ -1,0 +1,26 @@
+<article class="event" itemscope itemtype="http://schema.org/Event">
+	<main class="event__description text-content">
+        {{ event.description | raw }}
+    </main>
+	<footer class="event__details">
+		<p class="event__location" itemprop="location" itemscope itemtype="http://schema.org/Place">
+            <a class="address plain" target="_blank" href="{{ event.map_url }}" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                <span itemprop="streetAddress">{{ event.street_address | raw }}</span>
+                <span itemprop="addressLocality">{{ event.locality }}</span>
+                <span itemprop="addressRegion" class="hide-if-js">{{ event.region }}</span>
+                <span itemprop="postalCode" class="hide-if-js">{{ event.postal_code }}</span>
+            </a>
+        </p>
+        <p class="event__date">
+            <span itemprop="startDate" content="{{ event.start_date }}">{{ event.formatted_start_date | raw }}</span>
+            &mdash;
+            <span itemprop="endDate" content="{{ event.end_date }}">{{ event.formatted_end_date | raw }}</span>
+            , {{ event.year }}
+        </p>
+	</footer>
+    <div class="event__images">
+        {% for img in event.images %}
+        {% include 'partial/image.html.twig' %}
+        {% endfor %}
+    </div>
+</article>

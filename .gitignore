@@ -23,3 +23,6 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /public/assets/
+public/img/half/
+public/img/original/
+public/img/quarter/

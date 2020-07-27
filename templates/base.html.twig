@@ -7,7 +7,7 @@
 	<meta name="description" content="{{ page.description }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="manifest" href="/site.webmanifest">
+	<link rel="manifest" href="/build/manifest.json">
 	<link rel="apple-touch-icon" href="/favicon/icon.png">
 	<!-- Place favicon.ico in the root directory -->
 
@@ -56,7 +56,12 @@
 	{% endblock %}
 
 	{% block body %}{% endblock %}
-	{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
+
+	{% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js" defer async></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js" defer async></script>
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 	<!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 	<!--script>
 		window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;

@@ -10,5 +10,13 @@ import '../css/app.css';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
+import { runWhen } from './utilities/run-when.js';
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+runWhen(
+    () => {
+        return ('LazyLoad' in window) && ('IntersectionObserver' in window);
+    },
+    () => {
+        new LazyLoad();
+    }
+);
