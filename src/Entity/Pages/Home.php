@@ -7,9 +7,6 @@ class Home extends Page
 {
     protected function getIntroData(): array
     {
-        if (isset($_COOKIE['has_seen_intro']) && $_COOKIE['has_seen_intro'] == '1') {
-            return ['showIntro' => false];
-        }
         return [
             'showIntro' => true,
             'images' => (new Intro())->fetchImages(),
@@ -21,7 +18,9 @@ class Home extends Page
     {
         $jbpc = $this->fetchPageData('/jbpc');
         $data['page']['content'] = $jbpc['content'];
-
-        $data['intro'] = $this->getIntroData();
+        $data['hasIntro'] = !(isset($_COOKIE['has_seen_intro']) && $_COOKIE['has_seen_intro'] == '1');
+        if ($data['hasIntro']) {
+            $data['intro'] = $this->getIntroData();
+        }
     }
 }

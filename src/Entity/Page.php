@@ -5,8 +5,6 @@ trait Page
 {
     use Cockpit;
 
-    protected $images;
-
     protected function addSocialIcons(&$social): void
     {
         foreach ($social as &$site) {
@@ -63,6 +61,7 @@ trait Page
                 ],
             ],
             'page' => $this->fetchPageData($pagePath),
+            'hasIntro' => false,
         ];
     }
 }

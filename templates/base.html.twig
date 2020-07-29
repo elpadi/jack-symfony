@@ -56,7 +56,27 @@
 	</header>
 	{% endblock %}
 
-	{% block body %}{% endblock %}
+	{% block intro %}
+        {% if hasIntro and intro is defined %}
+        <aside id="intro" data-end-url="{{ path(intro.endRoute) }}">
+            <noscript>
+                {% for img in intro.images %}
+                <img src="{{ img.path }}" {{ img.getimagesize[3] | raw }}>
+                {% endfor %}
+            </noscript>
+        </aside>
+        {% endif %}
+    {% endblock %}
+
+	{% block background %}
+        {% if page.background is defined %}
+        <div class="page-background">
+            {% include 'partial/image.html.twig' with {'img': page.background} only %}
+        </div>
+        {% endif %}
+    {% endblock %}
+
+	{% block content %}{% endblock %}
 
 	{% block javascripts %}
         <script src="https://cdn.jsdelivr.net/npm/intersection-observer@0.7.0/intersection-observer.js" defer async></script>

@@ -123,6 +123,20 @@ header .far-right {
     }
 }
 
+.page-background {
+    position: fixed;
+    top: 65px;
+    left: 0;
+}
+.page-background img {
+    width: 100vw;
+    height: cacl(100vh - 65px);
+    object-fit: cover;
+}
+.page-background + #page-content {
+    position: relative;
+    z-index: 2;
+}
 #page-content {
 	margin-top: 15%;
 	padding: 0 10px;
@@ -152,4 +166,51 @@ header .far-right {
 .event__images img {
     display: block;
     margin: 2em auto;
+}
+
+#form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr;
+    max-width: 720px;
+    margin: 0 auto;
+    grid-gap: 0.8em;
+}
+#form > div:nth-child(1),
+#form > div:nth-child(3) {
+    grid-column: 1;
+}
+#form > div:nth-child(3) {
+    grid-row: 2;
+    justify-self: end;
+    align-self: start;
+}
+#form > div:nth-child(2) {
+    grid-row: 1 / span 2;
+}
+#form input,
+#form textarea {
+    width: 100%;
+    padding-left: 1em;
+}
+#form input {
+    height: 2.4em;
+}
+#form textarea {
+    height: 10em;
+    padding-top: 0.8em;
+}
+#form label {
+    position: absolute;
+    visibility: hidden;
+    left: 0;
+}
+#form button {
+    display: block;
+    text-transform: uppercase;
+    border-style: none;
+    padding: 0.8em 1.1em;
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 0.8em;
 }

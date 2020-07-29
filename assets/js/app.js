@@ -12,6 +12,8 @@ import '../css/app.css';
 // import $ from 'jquery';
 import { runWhen } from './utilities/run-when.js';
 
+const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+
 runWhen(
     () => {
         return ('LazyLoad' in window) && ('IntersectionObserver' in window);
@@ -20,3 +22,8 @@ runWhen(
         new LazyLoad();
     }
 );
+
+$$('#form label').forEach(l => {
+    l.nextElementSibling.setAttribute('placeholder', l.textContent);
+});
+

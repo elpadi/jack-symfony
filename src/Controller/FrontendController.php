@@ -1,39 +1,51 @@
 <?php
 namespace App\Controller;
 
+use RuntimeException;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\{
+    FormRenderer,
+    Forms
+};
+use Symfony\Bridge\Twig\Extension\FormExtension;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
+use Twig\RuntimeLoader\FactoryRuntimeLoader;
 use App\Entity\Pages\{
     Page,
-    Home,
-    Event
+    Home as HomePage,
+    Event as EventPage,
+    Contact as ContactPage
 };
-use Twig\Error\LoaderError;
 
 class FrontendController extends AbstractController
 {
     protected function page(string $name, $dataOrPage): Response
     {
         $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
-        try {
-            return $this->render("routes/$name.html.twig", $data);
-        }
-        catch (LoaderError $e) {
-            if (substr_count($e->getMessage(), "routes/$name.html.twig")) {
-                return $this->render("page.html.twig", $data);
+        $twigLoader = $this->get('twig')->getLoader();
+
+        foreach ([
+            "routes/$name",
+            "page",
+        ] as $route) {
+            $path = "$route.html.twig";
+            if ($twigLoader->exists($path)) {
+                return $this->render($path, $data);
             }
-            throw $e;
         }
-        return 'Unspecified error';
+
+        throw new RuntimeException("Could not find a template.");
     }
 
     /**
      * @Route("/", name="home")
      */
-    public function home(Home $homePage): Response
+    public function home(HomePage $page): Response
     {
-        return $this->page(__FUNCTION__, $homePage);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
@@ -60,7 +72,7 @@ class FrontendController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Page $page): Response
+    public function contact(ContactPage $page): Response
     {
         return $this->page(__FUNCTION__, $page);
     }
@@ -68,9 +80,9 @@ class FrontendController extends AbstractController
     /**
      * @Route("/event", name="event")
      */
-    public function event(Event $eventsPage): Response
+    public function event(EventPage $page): Response
     {
-        return $this->page(__FUNCTION__, $eventsPage);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
