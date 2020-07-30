@@ -130,7 +130,7 @@ header .far-right {
 }
 .page-background img {
     width: 100vw;
-    height: cacl(100vh - 65px);
+    height: calc(100vh - 65px);
     object-fit: cover;
 }
 .page-background + #page-content {
@@ -168,6 +168,13 @@ header .far-right {
     margin: 2em auto;
 }
 
+.message-success {
+    max-width: 720px;
+    margin: 0 auto 1em;
+    padding: 0.7em 1em;
+    background-color: #d1f1d1;
+    color: #696311;
+}
 #form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -192,13 +199,15 @@ header .far-right {
 #form textarea {
     width: 100%;
     padding-left: 1em;
+    font-size: 1.1rem;
+    font-family: inherit;
 }
 #form input {
-    height: 2.4em;
+    height: 2.6em;
 }
 #form textarea {
     height: 10em;
-    padding-top: 0.8em;
+    padding-top: 0.6em;
 }
 #form label {
     position: absolute;
@@ -213,4 +222,12 @@ header .far-right {
     letter-spacing: 2px;
     font-weight: bold;
     font-size: 0.8em;
+}
+#form ul {
+    list-style-type: none;
+    padding: 0.6em 1em;
+    margin: 0 0 0.5em;
+    background-color: #efb5b5;
+    color: #903232;
+    font-size: 0.9em;
 }

@@ -24,6 +24,6 @@ runWhen(
 );
 
 $$('#form label').forEach(l => {
-    l.nextElementSibling.setAttribute('placeholder', l.textContent);
+    l.parentElement.querySelector('input, textarea').setAttribute('placeholder', l.textContent);
 });
 

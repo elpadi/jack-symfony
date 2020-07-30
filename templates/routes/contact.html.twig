@@ -3,6 +3,12 @@
 {% block content %}
 
 
-<main id="page-content">{{ form(form) }}</main>
+<main id="page-content">
+    {% if message_success is defined and message_success %}
+    <p class="message-success">Thank you, your message was successfully sent.</p>
+    {% endif %}
+
+    {{ form(form_view) }}
+</main>
 
 {% endblock %}

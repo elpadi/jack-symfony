@@ -3,13 +3,16 @@ namespace App\Controller;
 
 use RuntimeException;
 use ReflectionClass;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{
+    Request,
+    Response,
+    RedirectResponse
+};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\{
-    FormRenderer,
-    Forms
-};
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;
@@ -72,9 +75,21 @@ class FrontendController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(ContactPage $page): Response
+    public function contact(ContactPage $page, Request $request, MailerInterface $mailer): Response
     {
-        return $this->page(__FUNCTION__, $page);
+        $data = $page->getPageData();
+        $data['form'] = $page->createContactForm($this->createFormBuilder());
+        if ($page->canProcessForm($data['form'], $request)) {
+            try {
+                $page->mailMessage($mailer, $data['form']->getData());
+                $data['message_success'] = true;
+            } catch (TransportExceptionInterface $e) {
+                $data['form']->get('email')
+                             ->addError(new FormError('Could not send email.'));
+            }
+        }
+        $data['form_view'] = $data['form']->createView();
+        return $this->page(__FUNCTION__, $data);
     }
 
     /**
