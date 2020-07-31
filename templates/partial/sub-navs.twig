@@ -1,6 +1,6 @@
-<ul class="subnav">
+<ul class="subnav" data-parent="issues">
     {% for issue in site.issues %}
-    <li data-section="issue" data-slug="{{ issue.slug }}">
+    <li data-slug="{{ issue.slug }}">
         <a href="{{ issue.url }}">{{ issue.title }}</a>
     </li>
     {% endfor %}

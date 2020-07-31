@@ -1,32 +1,47 @@
 #masthead .subnav {
-	font-size: 13px;
-	margin: auto;
-}
-#masthead .subnav,
-#masthead .subnav a {
-	height: 25px;
+    font-size: 16px;
+    margin: auto;
+    letter-spacing: 2px;
+    background-color: white;
 }
 #masthead .subnav a {
-	line-height: 15px;
-	border-bottom-color: white;
+    display: block;
+    padding: 8px 3px;
+    border-bottom: 1px solid white;
+    text-decoration: none;
 }
 #masthead .subnav a:hover {
-	border-color: rgb(195,195,195);
+    color: rgb(195,195,195);
+    border-color: rgb(195,195,195);
 }
 body[data-path="issues_single"] #masthead .subnav {
 }
 @media (min-width: 670px) {
-	#masthead {
-		height: 65px;
-	}
-	#masthead .subnav,
-	#masthead .subnav a {
-		height: 30px;
-	}
-	#masthead .subnav a {
-		line-height: 21px;
-	}
-	#masthead .subnav {
-		top: 35px;
-	}
+    #masthead {
+        height: 65px;
+    }
+    #masthead .subnav a {
+        height: 30px;
+        line-height: 21px;
+    }
+    #masthead .subnav {
+        top: 30px;
+        height: auto;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.3em 1em 0;
+        visibility: hidden;
+    }
+    #masthead .subnav:hover,
+    #masthead .subnav.expanded {
+        visibility: visible;
+    }
+    #masthead .subnav li {
+        margin: 0;
+    }
+    #masthead .subnav[data-parent="issues"] {
+        left: calc(50% - 133px);
+    }
 }

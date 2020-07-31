@@ -27,3 +27,19 @@ $$('#form label').forEach(l => {
     l.parentElement.querySelector('input, textarea').setAttribute('placeholder', l.textContent);
 });
 
+runWhen(
+    () => {
+        return ('hoverintent' in window);
+    },
+    () => {
+        $$('.subnav').forEach(subnav => {
+            const navItem = document.querySelector(`#header__nav li[data-section="${subnav.dataset.parent}"]`);
+            hoverintent(
+                navItem,
+                () => subnav.classList.add('expanded'),
+                () => subnav.classList.remove('expanded')
+            );
+        });
+    }
+);
+

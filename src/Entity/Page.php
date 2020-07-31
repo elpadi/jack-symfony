@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 trait Page
@@ -15,7 +16,13 @@ trait Page
     protected function addUrlToIssues(&$issues): void
     {
         foreach ($issues as &$issue) {
-            $issue['url'] = $this->router->generate('issue-layouts', $issue);
+            $issue['url'] = $this->router->generate(
+                'issue-layouts',
+                array_intersect_key(
+                    $issue,
+                    ['id' => '', 'slug' => '']
+                )
+            );
         }
     }
 
