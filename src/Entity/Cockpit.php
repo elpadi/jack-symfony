@@ -1,14 +1,23 @@
 <?php
+
 namespace App\Entity;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
-trait Cockpit {
-
+trait Cockpit
+{
     protected static $dataCacheHours = 24;
 
-    protected function fetchCockpitData(string $method, ...$params): array
+    /**
+     * Fetch data from cockpit.
+     *
+     * @param string $method {module}:{function} e.g. collections:findOne
+     * @param array  $params parameters passed to cockpit function.
+     *
+     * @return array
+     */
+    protected function fetchCockpitData(string $method, ...$params): ?array
     {
         $cache = new FilesystemAdapter();
         $key = str_replace(['{', '}', '/', ':'], ['[', ']', '-', ';'], $method . serialize($params));
@@ -30,5 +39,4 @@ trait Cockpit {
             }
         );
     }
-
 }

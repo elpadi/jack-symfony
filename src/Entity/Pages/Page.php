@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Pages;
 
 use App\Entity\{

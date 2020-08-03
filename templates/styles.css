@@ -1,3 +1,16 @@
+.screen-reader-text,
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 html, body {
 	margin: 0;
 }
@@ -234,4 +247,16 @@ header .far-right {
     background-color: #efb5b5;
     color: #903232;
     font-size: 0.9em;
+}
+
+.issue-layouts {
+    text-align: center;
+}
+.issue-layouts article {
+    margin-bottom: 3em;
+}
+.issue-layouts img {
+    max-height: 50vh;
+    max-width: 720px;
+    object-fit: contain;
 }

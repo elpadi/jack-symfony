@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Pages;
 
 use Symfony\Component\Mailer\MailerInterface;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity\Pages;
 
 class Event extends Page
@@ -7,9 +8,7 @@ class Event extends Page
     {
         $images = cockpit('collections:find', 'deck2016images');
         foreach ($images as &$img) {
-            $path = str_replace('assets/', '', $img['image']['path']);
-            $img['src'] = $this->publicPath->getUrl("img/quarter/$path");
-            $img['srcset'] = $this->getImageSrcSet($path, (int) $img['width']);
+            $this->addImageData($img);
         }
         return $images;
     }

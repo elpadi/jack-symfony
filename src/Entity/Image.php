@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -14,7 +15,7 @@ trait Image
             '%s %d',
             $this->publicPath->getUrl("img/$size/$path"),
             $width
-        ).'w';
+        ) . 'w';
     }
 
     protected function getImageSrcSet(string $path, int $width): string
@@ -22,8 +23,8 @@ trait Image
         return implode(
             ', ',
             [
-                $this->getImageSrcSetPart($path, round($width / 2), 'half'), 
-                $this->getImageSrcSetPart($path, $width, 'original'), 
+                $this->getImageSrcSetPart($path, round($width / 2), 'half'),
+                $this->getImageSrcSetPart($path, $width, 'original'),
             ]
         );
     }

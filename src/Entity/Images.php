@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Entity;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
-trait Images {
+trait Images
+{
 
     protected static $sizeCacheHours = 24 * 7;
     protected static $sizeCacheVersion = 1;
@@ -16,7 +18,7 @@ trait Images {
         $urlPath = str_replace($assetsDir, '', $path);
         $cacheKey = sprintf('image-info-v%d-%s', static::$sizeCacheVersion, str_replace(['/','.'], '-', $path));
 
-        return $cache->get($cacheKey , function (ItemInterface $item) use ($path, $urlPath) {
+        return $cache->get($cacheKey, function (ItemInterface $item) use ($path, $urlPath) {
             $item->expiresAfter(3600 * static::$sizeCacheHours);
             return [
                 'path' => $urlPath,
@@ -24,5 +26,4 @@ trait Images {
             ];
         });
     }
-
 }

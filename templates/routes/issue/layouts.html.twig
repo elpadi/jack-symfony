@@ -1,0 +1,38 @@
+{% extends 'page.html.twig' %}
+
+{% block content %}
+
+<main id="page-content" itemscope itemtype="http://schema.org/Periodical">
+
+    <div class="screen-reader-text">
+        <h1 itemprop="name">The Jack Mag</h1>
+        <p>Volume 376, July 2010-December 2010</p>
+        <p>Published by <span itemprop="publisher">Fong Fei LLC</span>
+        <p itemprop="creator" itemscope itemtype="http://schema.org/Person">
+            <span itemprop="name">Dah Len Wee</span>
+        </p>
+    </div>
+    <meta itemprop="volumeNumber" content="{{ issue.id }}">
+
+    <section class="issue-layouts" itemprop="hasPart" itemscope itemtype="http://schema.org/PublicationIssue">
+
+        {% for layout in layouts %}
+        <article itemprop="hasPart" itemscope itemtype="http://schema.org/VisualArtwork">
+            <div class="screen-reader-text">
+                <h2 itemprop="name" lang="en">{{ layout.title }}</h2>
+                <p itemprop="artform">photograph</p>
+                <p>Dimensions:
+                    <span itemprop="width" itemscope itemtype="http://schema.org/Distance">{{ layout.width }} inches</span>
+                    ×
+                    <span itemprop="height" itemscope itemtype="http://schema.org/Distance">{{ layout.height }} inches</span>
+                </p>
+            </div>
+            {% include 'partial/lazy-image.html.twig' with {'img': layout.image } only %}
+        </article>
+        {% endfor %}
+
+    </section>
+
+</main>
+
+{% endblock %}

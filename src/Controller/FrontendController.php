@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use RuntimeException;
@@ -20,23 +21,28 @@ use App\Entity\Pages\{
     Page,
     Home as HomePage,
     Event as EventPage,
-    Contact as ContactPage
+    Contact as ContactPage,
+    Issue as IssuePage
 };
+
+use function Stringy\create as s;
 
 class FrontendController extends AbstractController
 {
-    protected function page(string $name, $dataOrPage): Response
+    protected function page(string $path, $dataOrPage): Response
     {
         $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
         $twigLoader = $this->get('twig')->getLoader();
 
-        foreach ([
-            "routes/$name",
-            "page",
-        ] as $route) {
-            $path = "$route.html.twig";
-            if ($twigLoader->exists($path)) {
-                return $this->render($path, $data);
+        foreach (
+            [
+                "routes/$path",
+                "page",
+            ] as $route
+        ) {
+            $tpl = "$route.html.twig";
+            if ($twigLoader->exists($tpl)) {
+                return $this->render($tpl, $data);
             }
         }
 
@@ -111,15 +117,17 @@ class FrontendController extends AbstractController
     /**
      * @Route("/issues/{id<\d+>}-{slug}/layouts", name="issue-layouts")
      */
-    public function issueLayouts(): Response
+    public function issueLayouts(int $id, string $slug, IssuePage $issuePage): Response
     {
-        return $this->page(__FUNCTION__);
+        $path = (string) s(__FUNCTION__)->snakeize()->replace('_', '/');
+        $issuePage->fetchIssue($id, $slug);
+        return $this->page($path, $issuePage);
     }
 
     /**
      * @Route("/special-project")
      */
-    public function special_project(): Response
+    public function specialProject(): Response
     {
         return $this->page(__FUNCTION__);
     }
@@ -127,7 +135,7 @@ class FrontendController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function page_new(): Response
+    public function pageNew(): Response
     {
         return $this->page(__FUNCTION__);
     }

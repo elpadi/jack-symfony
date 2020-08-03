@@ -1,4 +1,7 @@
 {
+    "defuse/php-encryption": {
+        "version": "v2.2.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -523,6 +526,30 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "voku/anti-xss": {
+        "version": "4.1.25"
+    },
+    "voku/arrayy": {
+        "version": "7.8.2"
+    },
+    "voku/email-check": {
+        "version": "3.0.2"
+    },
+    "voku/portable-ascii": {
+        "version": "1.5.3"
+    },
+    "voku/portable-utf8": {
+        "version": "5.4.47"
+    },
+    "voku/stop-words": {
+        "version": "2.0.1"
+    },
+    "voku/stringy": {
+        "version": "6.3.1"
+    },
+    "voku/urlify": {
+        "version": "5.0.5"
     },
     "webmozart/assert": {
         "version": "1.8.0"

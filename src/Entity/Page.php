@@ -38,7 +38,7 @@ trait Page
         return [];
     }
 
-    protected function fetchPageData(string $pagePath): array
+    protected function fetchPageData(string $pagePath): ?array
     {
         return $this->fetchCockpitData(
             'collections:findOne',
