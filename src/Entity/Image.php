@@ -78,10 +78,9 @@ trait Image
 
     protected function addImageData(array &$img): void
     {
-        dump($img);
-        exit();
         $img['path'] = $this->cockpitPathToSymfonyPath($img['path']);
         $this->setImageDims($img);
         $this->setImageSources($img);
+        $img['mediaType'] = 'image';
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Entity\Pages;
 
 use App\Entity\{
+    Shortcode,
     Image as ImageTrait,
     Page as PageTrait
 };
@@ -13,16 +14,19 @@ use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 
 class Page
 {
+    use Shortcode;
     use ImageTrait;
     use PageTrait;
 
     protected $router;
+    protected $data;
 
     public function __construct(KernelInterface $appKernel, UrlGeneratorInterface $router)
     {
         $this->appKernel = $appKernel;
         $this->router = $router;
         $this->publicPath = new PathPackage('', new EmptyVersionStrategy());
+        $this->initShortcodes();
     }
 
     protected function preprocessData(&$data): void
@@ -31,13 +35,16 @@ class Page
 
     public function getPageData(string $pagePath = ''): array
     {
-        $data = $this->getDefaultPageData(empty($pagePath) ? $_SERVER['REQUEST_URI'] : $pagePath);
-        if (empty($data['page']['background'])) {
-            unset($data['page']['background']);
+        $this->data = $this->getDefaultPageData(empty($pagePath) ? $_SERVER['REQUEST_URI'] : $pagePath);
+        if (empty($this->data['page']['background'])) {
+            unset($this->data['page']['background']);
         } else {
-            $this->addImageData($data['page']['background']);
+            $this->addImageData($this->data['page']['background']);
         }
-        $this->preprocessData($data);
-        return $data;
+        if (!empty($this->data['page']['content'])) {
+            $this->data['page']['content'] = $this->parseShortcodes($this->data['page']['content']);
+        }
+        $this->preprocessData($this->data);
+        return $this->data;
     }
 }

@@ -524,6 +524,9 @@
     "symfony/yaml": {
         "version": "v5.0.8"
     },
+    "thunderer/shortcode": {
+        "version": "v0.7.4"
+    },
     "twig/extra-bundle": {
         "version": "v3.0.3"
     },

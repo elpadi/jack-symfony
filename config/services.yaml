@@ -28,3 +28,5 @@ services:
     App\Entity\Pages\:
         resource: '../src/Entity/Pages/*'
         tags: ['entity.pages']
+
+    Twig\Extension\StringLoaderExtension:

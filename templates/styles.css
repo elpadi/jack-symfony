@@ -36,6 +36,9 @@ a:hover {
 a:not(.plain) {
 	color: black;
 }
+iframe,
+object,
+video,
 img {
 	max-width: 100%;
 	height: auto;
@@ -168,6 +171,15 @@ header .far-right {
     text-align: justify;
 }
 
+.layouts {
+    max-width: 640px;
+    margin: 0 auto;
+}
+.layouts img {
+    display: block;
+    margin: 2em auto;
+}
+
 .event__details {
     text-align: center;
     margin: 1em 0 3em;
@@ -176,14 +188,6 @@ header .far-right {
 }
 .event__details p {
     margin: 0;
-}
-.event__images {
-    max-width: 640px;
-    margin: 0 auto;
-}
-.event__images img {
-    display: block;
-    margin: 2em auto;
 }
 
 .message-success {

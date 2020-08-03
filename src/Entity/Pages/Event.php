@@ -2,15 +2,18 @@
 
 namespace App\Entity\Pages;
 
+use function Functional\pluck;
+
 class Event extends Page
 {
     protected function getDeckImages(): array
     {
         $images = cockpit('collections:find', 'deck2016images');
-        foreach ($images as &$img) {
+        foreach (pluck($images, 'image') as $img) {
             $this->addImageData($img);
+            $imgs[] = $img;
         }
-        return $images;
+        return $imgs;
     }
 
     protected function getEventsData(): array

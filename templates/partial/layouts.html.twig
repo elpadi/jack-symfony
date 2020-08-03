@@ -1,0 +1,14 @@
+<div class="layouts">
+    {% for layout in layouts %}
+
+    {% if layout.mediaType == 'image' %}
+    {% include 'partial/lazy-image.html.twig' with {'img': layout} only %}
+    {% endif %}
+
+    {% if layout.mediaType == 'video' %}
+    {% include 'partial/video.html.twig' with {'video': layout} only %}
+    {% endif %}
+
+    {% endfor %}
+</div>
+
