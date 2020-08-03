@@ -32,7 +32,9 @@ class Page
     public function getPageData(string $pagePath = ''): array
     {
         $data = $this->getDefaultPageData(empty($pagePath) ? $_SERVER['REQUEST_URI'] : $pagePath);
-        if (isset($data['page']['background'])) {
+        if (empty($data['page']['background'])) {
+            unset($data['page']['background']);
+        } else {
             $this->addImageData($data['page']['background']);
         }
         $this->preprocessData($data);

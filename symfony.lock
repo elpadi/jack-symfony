@@ -84,6 +84,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "lstrojny/functional-php": {
+        "version": "1.12.0"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },

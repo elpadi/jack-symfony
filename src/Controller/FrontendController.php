@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use RuntimeException;
 use ReflectionClass;
+use Throwable;
 use Symfony\Component\HttpFoundation\{
     Request,
     Response,
     RedirectResponse
 };
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -24,8 +26,10 @@ use App\Entity\Pages\{
     Contact as ContactPage,
     Issue as IssuePage
 };
+use App\Exception\ItemNotFoundException;
 
 use function Stringy\create as s;
+use function Functional\last;
 
 class FrontendController extends AbstractController
 {
@@ -42,6 +46,7 @@ class FrontendController extends AbstractController
         ) {
             $tpl = "$route.html.twig";
             if ($twigLoader->exists($tpl)) {
+                $data['route'] = str_replace(['routes/', '/'], ['', '-'], $route);
                 return $this->render($tpl, $data);
             }
         }
@@ -120,7 +125,11 @@ class FrontendController extends AbstractController
     public function issueLayouts(int $id, string $slug, IssuePage $issuePage): Response
     {
         $path = (string) s(__FUNCTION__)->snakeize()->replace('_', '/');
-        $issuePage->fetchIssue($id, $slug);
+        try {
+            $issuePage->fetchIssue($id, $slug);
+        } catch (ItemNotFoundException $e) {
+            throw $this->createNotFoundException('Could not find the specified issue.');
+        }
         return $this->page($path, $issuePage);
     }
 
@@ -135,8 +144,30 @@ class FrontendController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function pageNew(): Response
+    public function pageNew(Page $page): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    public function error(\Throwable $exception, Page $page): Response
+    {
+        $statusCode = $exception instanceof HttpException ? $exception->getStatusCode() : 500;
+        $data = $page->getPageData("/$statusCode");
+        $errorType = last(explode('\\', get_class($exception)));
+
+        if ($data['page'] == null) {
+            $data['page'] = ['title' => $errorType, 'content' => ''];
+        }
+        if ($data['page']['title'] == 'Error') {
+            $data['page']['title'] = $errorType;
+        }
+
+        if (empty($data['page']['content'])) {
+            $data['page']['content'] = $exception->getMessage();
+        }
+
+        $response = $this->page(__FUNCTION__, $data);
+        $response->setStatusCode($statusCode);
+        return $response;
     }
 }

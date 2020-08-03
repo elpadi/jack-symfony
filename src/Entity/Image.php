@@ -63,21 +63,23 @@ trait Image
         return str_replace('assets/', '', $path);
     }
 
-    protected function setImageDims(&$img): void
+    protected function setImageDims(array &$img): void
     {
         foreach ($this->getImageDims($img['path']) as $dim => $size) {
             $img[$dim] = $size;
         }
     }
 
-    protected function setImageSources(&$img): void
+    protected function setImageSources(array &$img): void
     {
         $img['src'] = $this->publicPath->getUrl("img/quarter/$img[path]");
         $img['srcset'] = $this->getImageSrcSet($img['path'], $img['width']);
     }
 
-    protected function addImageData(&$img): void
+    protected function addImageData(array &$img): void
     {
+        dump($img);
+        exit();
         $img['path'] = $this->cockpitPathToSymfonyPath($img['path']);
         $this->setImageDims($img);
         $this->setImageSources($img);

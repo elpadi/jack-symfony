@@ -1,4 +1,5 @@
 framework:
+    #error_controller: App\Controller\FrontendController::error
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     #http_method_override: true

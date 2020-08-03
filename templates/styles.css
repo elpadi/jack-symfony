@@ -1,3 +1,4 @@
+.js body[data-route="page"] #page-content h1,
 .screen-reader-text,
 .sr-only {
   border: 0;

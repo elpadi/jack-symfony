@@ -5,6 +5,7 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "lstrojny/functional-php": "^1.12",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "5.0.*",
         "symfony/cache": "5.0.*",
@@ -27,11 +28,13 @@
         "symfony/string": "5.0.*",
         "symfony/translation": "5.0.*",
         "symfony/twig-bridge": "5.0.*",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "5.0.*",
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0",
         "voku/stringy": "^6.3"
     },
     "require-dev": {
