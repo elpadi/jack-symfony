@@ -36,8 +36,8 @@ trait Image
         $fetch = function () use ($path) {
             return getimagesize(
                 sprintf(
-                    '%s/public/img/original/%s',
-                    $this->appKernel->getProjectDir(),
+                    '%s/img/original/%s',
+					$_ENV['PUBLIC_DIR'],
                     $path
                 )
             );
@@ -60,7 +60,7 @@ trait Image
 
     protected function cockpitPathToSymfonyPath(string $path): string
     {
-        return str_replace('assets/', '', $path);
+        return str_replace(['assets/', 'storage/'], '', $path);
     }
 
     protected function setImageDims(array &$img): void

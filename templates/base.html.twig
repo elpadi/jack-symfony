@@ -26,14 +26,13 @@
 	{% endblock %}
 
 	<style>{% include 'styles.css' %}</style>
-	<link rel="stylesheet" rel="preload" as="style" href="/build/app.css">
-	<!-- {{ encore_entry_link_tags('app') }} -->
-    <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;700&display=swap" rel="stylesheet">
+    {{ encore_entry_link_tags('app') | replace({ stylesheet: 'preload" as="style' }) | raw }}
+    <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;700&family=Montserrat:ital,wght@1,300&display=swap" rel="stylesheet">
 
 	<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
 </head>
 
-<body data-route="{{ route }}">
+<body data-route-name="{{ routeName }}" data-tpl="{{ tpl }}">
 
 	{% block header %}
 	<header id="masthead">

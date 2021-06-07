@@ -4,7 +4,7 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
+/public/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -26,3 +26,8 @@ yarn-error.log
 public/img/half/
 public/img/original/
 public/img/quarter/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

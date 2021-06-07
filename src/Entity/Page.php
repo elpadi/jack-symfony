@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use function Stringy\create as s;
+
 trait Page
 {
     use Cockpit;
@@ -26,11 +28,26 @@ trait Page
         }
     }
 
-    protected function addUrlToMainMenu(&$menu): void
+    protected function addMenuItemsInfo(array $mainmenu): array
     {
-        foreach ($menu as &$item) {
-            $item['url'] = substr_count($item['url'], 'http') ? $item['url'] : $this->router->generate($item['url']);
-        }
+        $itemInfo = function (array $item) {
+            if (empty($item['url'])) {
+                return [
+                    'route' => 'none',
+                    'section' => (string) s($item['title'])->slugify(),
+                    'url' => '#',
+                ];
+            }
+            return [
+                'route' => $item['url'],
+                'url' => substr_count($item['url'], 'http') ? $item['url'] : $this->router->generate($item['url']),
+                'section' => (string) s($item['url'])->slugify(),
+            ];
+        };
+
+        return array_map(function (array $item) use ($itemInfo) {
+            return array_merge($item, $itemInfo($item));
+        }, $mainmenu);
     }
 
     protected function getExtraData(): array
@@ -56,7 +73,7 @@ trait Page
         $this->addUrlToIssues($issues);
 
         $mainmenu = $this->fetchCockpitData('collections:find', 'mainmenu');
-        $this->addUrlToMainMenu($mainmenu);
+        $mainmenu = $this->addMenuItemsInfo($mainmenu);
 
         return [
             'site' => [

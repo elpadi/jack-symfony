@@ -43,3 +43,18 @@ runWhen(
     }
 );
 
+function applyLazyLoadedStyles()
+{
+    for (let link of document.head.querySelectorAll('link[rel="preload"]')) {
+        if (link.href.endsWith('css')) {
+            link.rel = 'stylesheet';
+        }
+    }
+}
+
+function onLoad()
+{
+    applyLazyLoadedStyles();
+}
+
+document.readyState === 'complete' ? onLoad : window.addEventListener('load', loadEvent => onLoad());

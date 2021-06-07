@@ -42,7 +42,9 @@ class Issue extends Page
     {
         foreach ($this->layouts as &$layout) {
             $this->addImageData($layout['image']);
-            $this->addLayoutDimensions($layout);
+            if (isset($layout['sheets']) && is_array($layout['sheets']) && count($layout['sheets'])) {
+                $this->addLayoutDimensions($layout);
+            }
         }
         $data['page'] = [
             'title' => $this->issue['title'],

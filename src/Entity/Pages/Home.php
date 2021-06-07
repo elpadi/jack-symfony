@@ -10,14 +10,14 @@ class Home extends Page
         return [
             'showIntro' => true,
             'images' => (new Intro())->fetchImages(),
-            'endRoute' => 'jbpc',
+            'endRoute' => $_ENV['HOME_PAGE'],
         ];
     }
 
     protected function preprocessData(&$data): void
     {
-        $jbpc = $this->fetchPageData('/jbpc');
-        $data['page']['content'] = $jbpc['content'];
+        $home = $this->fetchPageData($this->router->generate($_ENV['HOME_PAGE']));
+        $data['page']['content'] = $home['content'];
         $data['hasIntro'] = !(isset($_COOKIE['has_seen_intro']) && $_COOKIE['has_seen_intro'] == '1');
         if ($data['hasIntro']) {
             $data['intro'] = $this->getIntroData();

@@ -21,11 +21,13 @@
             <div class="screen-reader-text">
                 <h2 itemprop="name" lang="en">{{ layout.title }}</h2>
                 <p itemprop="artform">photograph</p>
+                {% if layout.sheets | length %}
                 <p>Dimensions:
                     <span itemprop="width" itemscope itemtype="http://schema.org/Distance">{{ layout.width }} inches</span>
                     ×
                     <span itemprop="height" itemscope itemtype="http://schema.org/Distance">{{ layout.height }} inches</span>
                 </p>
+                {% endif %}
             </div>
             {% include 'partial/lazy-image.html.twig' with {'img': layout.image } only %}
         </article>

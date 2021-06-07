@@ -1,15 +1,31 @@
-.js body[data-route="page"] #page-content h1,
+@font-face {
+    font-family: 'CooperFiveOpti-Black';
+    src:  url('/fonts/cooper/CooperFiveOpti-Black.ttf.woff') format('woff'),
+    url('/fonts/cooper/CooperFiveOpti-Black.ttf.svg#CooperFiveOpti-Black') format('svg'),
+    url('/fonts/cooper/CooperFiveOpti-Black.ttf.eot'),
+    url('/fonts/cooper/CooperFiveOpti-Black.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+.cooper {
+    font-family: 'CooperFiveOpti-Black';  
+    color: black;
+    font-weight: normal;
+}
+
+.js #page-content h1,
 .screen-reader-text,
 .sr-only {
   border: 0;
-  clip: rect(0, 0, 0, 0);
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;
   padding: 0;
   position: absolute;
-  white-space: nowrap;
   width: 1px;
+  word-wrap: normal !important;
 }
 
 html, body {
@@ -84,7 +100,14 @@ img {
 }
 .subnav a,
 #header__nav a {
-	color: #d4d0d0;
+    color: #9e9e9e;
+	/*color: #d4d0d0;*/
+}
+body[data-route-name="pageNew"] #header__nav li[data-section="new"] a,
+#header__nav li.selected a,
+#header__nav a:hover {
+    color: black;
+    border-top-color: currentColor;
 }
 
 header .far-right {
@@ -124,7 +147,7 @@ header .far-right {
         height: 63px;
     }
     #header__nav {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
         letter-spacing: 2px;
     }
     #header__nav a {
@@ -134,13 +157,12 @@ header .far-right {
         display: block;
         text-decoration: none;
     }
-    #header__nav li.selected a,
-    #header__nav a:hover {
-        color: black;
-        border-top-color: currentColor;
+    #header__social li {
+        margin-left: 8px;
+        margin-right: 8px;
     }
     #header__social img {
-        height: 18px;
+        height: 22px;
     }
 }
 
@@ -264,4 +286,20 @@ header .far-right {
     max-height: 50vh;
     max-width: 720px;
     object-fit: contain;
+}
+
+.making-of-title {
+    margin-bottom: 48px;
+}
+.making-of-title h2 {
+    text-align: center;
+    font-size: 3rem;
+    margin: 0;
+}
+.making-of-title p {
+    margin: 0;
+    font-family: Montserrat;
+    text-align: right;
+    font-style: italic;
+    font-weight: 300;
 }

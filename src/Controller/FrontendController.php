@@ -46,7 +46,8 @@ class FrontendController extends AbstractController
         ) {
             $tpl = "$route.html.twig";
             if ($twigLoader->exists($tpl)) {
-                $data['route'] = str_replace(['routes/', '/'], ['', '-'], $route);
+                $data['routeName'] = $path;
+                $data['tpl'] = str_replace(['routes/', '/'], ['', '-'], $route);
                 return $this->render($tpl, $data);
             }
         }
@@ -116,7 +117,7 @@ class FrontendController extends AbstractController
      */
     public function issues(): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, []);
     }
 
     /**
@@ -142,7 +143,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new")
+     * @Route("/new", name="page-new")
      */
     public function pageNew(Page $page): Response
     {
