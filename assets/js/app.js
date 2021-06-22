@@ -27,13 +27,30 @@ $$('#form label').forEach(l => {
     l.parentElement.querySelector('input, textarea').setAttribute('placeholder', l.textContent);
 });
 
+const subnavMainNavPairs = $$('.subnav').map(subnav => [subnav, document.querySelector(`#header__nav li[data-section="${subnav.dataset.parent}"]`)]);
+
+subnavMainNavPairs.forEach(([subnav, navItem]) => {
+    if (!navItem) {
+        console.error('Invalid submenu item.', subnav);
+        return;
+    }
+
+    navItem.querySelector('a').addEventListener('click', e => {
+        e.preventDefault();
+        subnav.classList.toggle('expanded');
+    });
+});
+
 runWhen(
     () => {
         return ('hoverintent' in window);
     },
     () => {
-        $$('.subnav').forEach(subnav => {
-            const navItem = document.querySelector(`#header__nav li[data-section="${subnav.dataset.parent}"]`);
+        subnavMainNavPairs.forEach(([subnav, navItem]) => {
+            if (!navItem) {
+                return;
+            }
+
             hoverintent(
                 navItem,
                 () => subnav.classList.add('expanded'),
