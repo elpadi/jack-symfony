@@ -1,8 +1,19 @@
 #masthead .subnav {
-    font-size: 16px;
+    font-size: 14px;
     margin: auto;
     letter-spacing: 2px;
     background-color: white;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
+}
+#masthead .subnav:hover,
+#masthead .subnav.expanded {
+    display: flex;
+    visibility: visible;
+}
+#masthead .subnav li {
+    margin: 0;
 }
 #masthead .subnav a {
     display: block;
@@ -33,13 +44,6 @@ body[data-path="issues_single"] #masthead .subnav {
         align-items: flex-start;
         padding: 0.3em 1em 0.8em;
         visibility: hidden;
-    }
-    #masthead .subnav:hover,
-    #masthead .subnav.expanded {
-        visibility: visible;
-    }
-    #masthead .subnav li {
-        margin: 0;
     }
     #masthead .subnav[data-parent="issues"] {
         left: calc(50% - 196px);
