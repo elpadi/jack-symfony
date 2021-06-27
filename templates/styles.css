@@ -13,6 +13,26 @@
     font-weight: normal;
 }
 
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#container {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+#masthead > .main-nav { z-index: 60; }
+#masthead > .submenu { z-index: 50; }
+#masthead > .subnav { z-index: 40; }
+#masthead::after { z-index: 30; }
+#masthead { z-index: 20; }
+#content { z-index: 10; }
+.page-background { z-index: 1; }
+
 .js #page-content h1,
 .screen-reader-text,
 .sr-only {
@@ -77,10 +97,10 @@ img {
 }
 #header__logo {
 	display: block;
-	text-align: center;
+    padding-left: 22px;
 }
 #header__logo__img {
-	height: 38px;
+	height: 50px;
 	width: auto;
 }
 #masthead .subnav {
@@ -128,11 +148,14 @@ header .far-right {
 #header__social .button--facebook { margin-right: 2px; }
 #header__social .button--twitter { margin-right: 7px; }
 #header__social img {
-	height: 16px;
+	height: 18px;
 	width: auto;
 }
 
 @media (min-width: 670px) {
+    #header__logo {
+        padding-left: 0;
+    }
     #masthead {
         border-bottom-style: none;
     }
@@ -186,7 +209,7 @@ header .far-right {
 	font: 18px/1.5 "Lusitana", serif;
 }
 #page-content .text-content {
-    max-width: 30em;
+    max-width: 720px;
     margin-left: auto;
     margin-right: auto;
     padding: 1em;
@@ -194,7 +217,7 @@ header .far-right {
 }
 
 .layouts {
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
 }
 .layouts img {
@@ -283,7 +306,7 @@ header .far-right {
     margin-bottom: 3em;
 }
 .issue-layouts img {
-    max-height: 50vh;
+    max-height: 640px;
     max-width: 720px;
     object-fit: contain;
 }
