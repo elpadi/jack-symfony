@@ -4,6 +4,12 @@ SSH_ACCOUNT="elpadi@thejackmag.com"
 SERVER_PATH="/home1/elpadi/symfony"
 SSH_PORT=2222
 
+if [[ "$ENV" == "prod" ]]; then
+    SERVER_PATH="/home1/elpadi/symfony"
+else
+    SERVER_PATH="/home1/elpadi/staging.thejackmag.com/symfony"
+fi
+
 upload_dir() {
     dirPathNoSlash=$(echo "$1" | sed 's:/*$::')
 	echo "Uploading dir $1"
