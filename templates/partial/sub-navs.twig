@@ -5,3 +5,12 @@
     </li>
     {% endfor %}
 </ul>
+{% for mainsubnav in site.mainsubnavs %}
+<ul class="subnav" data-parent="{{ mainsubnav.parent }}">
+    {% for item in mainsubnav.items %}
+    <li data-slug="{{ item.title | slugify }}">
+        <a href="/{{ item.url }}">{{ item.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}

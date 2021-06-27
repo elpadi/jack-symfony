@@ -32,8 +32,9 @@ body[data-path="issues_single"] #masthead .subnav {
         height: 65px;
     }
     #masthead .subnav a {
-        height: 30px;
+        height: 24px;
         line-height: 21px;
+        padding-bottom: 0;
     }
     #masthead .subnav {
         top: 30px;
@@ -46,6 +47,9 @@ body[data-path="issues_single"] #masthead .subnav {
         visibility: hidden;
     }
     #masthead .subnav[data-parent="issues"] {
-        left: calc(50% - 196px);
+        left: calc(50% - 192px);
+    }
+    #masthead .subnav[data-parent="page-new"] {
+        left: calc(50% + 200px);
     }
 }

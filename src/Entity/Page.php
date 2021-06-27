@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use function Functional\group;
 use function Stringy\create as s;
 
 trait Page
@@ -26,6 +27,17 @@ trait Page
                 )
             );
         }
+    }
+
+    protected function groupSubNavs(array $mainsubnavitems): array
+    {
+        $groupedByParent = group($mainsubnavitems, function(array $item) {
+            return $item['parent'];
+        });
+        foreach ($groupedByParent as $parent => $items) {
+            $subNavs[] = compact('parent', 'items');
+        }
+        return $subNavs ?? [];
     }
 
     protected function addMenuItemsInfo(array $mainmenu): array
@@ -75,12 +87,16 @@ trait Page
         $mainmenu = $this->fetchCockpitData('collections:find', 'mainmenu');
         $mainmenu = $this->addMenuItemsInfo($mainmenu);
 
+        $mainsubnavs = $this->fetchCockpitData('collections:find', 'mainsubnavs');
+        $mainsubnavs = $this->groupSubNavs($mainsubnavs);
+
         return [
             'site' => [
                 'logo' => $this->publicPath->getUrl('img/logo.svg'),
                 'social' => $social,
                 'issues' => $issues,
                 'mainmenu' => $mainmenu,
+                'mainsubnavs' => $mainsubnavs,
                 'icons' => [
                 ],
             ],

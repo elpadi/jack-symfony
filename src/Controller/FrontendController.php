@@ -27,6 +27,7 @@ use App\Entity\Pages\{
     Issue as IssuePage
 };
 use App\Exception\ItemNotFoundException;
+use App\Helpers\Twig as TwigHelper;
 
 use function Stringy\create as s;
 use function Functional\last;
@@ -37,6 +38,7 @@ class FrontendController extends AbstractController
     {
         $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
         $twigLoader = $this->get('twig')->getLoader();
+        TwigHelper::init($this->get('twig'));
 
         foreach (
             [
