@@ -32,19 +32,26 @@ trait Image
     protected function getImageDims(string $path): array
     {
         $cache = new FilesystemAdapter();
-        $key = str_replace('/', ';', $path);
-        $fetch = function () use ($path) {
-            return getimagesize(
-                sprintf(
-                    '%s/img/original/%s',
-					$_ENV['PUBLIC_DIR'],
-                    $path
-                )
-            );
-        };
-        if (($_ENV['APP_ENV'] ?? 'prod') == 'dev') {
-            $size = $fetch();
+        $imgFilePath = sprintf(
+            '%s/img/original/%s',
+            $_ENV['PUBLIC_DIR'],
+            $path
+        );
+
+        if (!is_readable($imgFilePath)) {
+            throw new InvalidArgumentException("Could not find image at $path.");
         }
+
+        $key = str_replace('/', ';', $path) . filemtime($imgFilePath);
+
+        $fetch = function () use ($imgFilePath) {
+            return getimagesize($imgFilePath);
+        };
+
+        if (($_ENV['APP_ENV'] ?? 'prod') == 'dev') {
+            return $fetch();
+        }
+
         $size = $cache->get(
             $key,
             function (ItemInterface $item) use ($fetch) {
@@ -52,6 +59,7 @@ trait Image
                 return $fetch();
             }
         );
+
         return [
             'width' => $size[0],
             'height' => $size[1],
