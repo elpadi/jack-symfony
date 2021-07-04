@@ -1,2 +1,43 @@
-@import "pages/new.css";
+@font-face {
+    font-family: 'CooperFiveOpti-Black';
+    src:  url('/fonts/cooper/CooperFiveOpti-Black.ttf.woff') format('woff'),
+    url('/fonts/cooper/CooperFiveOpti-Black.ttf.svg#CooperFiveOpti-Black') format('svg'),
+    url('/fonts/cooper/CooperFiveOpti-Black.ttf.eot'),
+    url('/fonts/cooper/CooperFiveOpti-Black.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'archivo_blackregular';
+    src: url('/fonts/archivoblack/archivoblack-regular.woff2') format('woff2'),
+         url('/fonts/archivoblack/archivoblack-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'montserratitalic';
+    src: url('/fonts/montserrat/montserrat-italic.woff2') format('woff2'),
+         url('/fonts/montserrat/montserrat-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import "pages/making-of-jack.css";
+@import "pages/galore.css";
 @import "components/sub-nav.css";
+
+.cooper {
+    font-family: 'CooperFiveOpti-Black';
+    color: black;
+    font-weight: normal;
+}
+
+.arial-black {
+    font-family: 'Arial Black', 'archivo_blackregular', sans-serif;
+    font-weight: 400;
+}
+
+.montserrat-italic {
+    font-family: 'montserratitalic', sans-serif;
+    font-style: italic;
+}

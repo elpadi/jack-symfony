@@ -17,13 +17,20 @@
 }
 #masthead .subnav a {
     display: block;
-    padding: 8px 3px;
+    padding: 8px 3px 2px;
     border-bottom: 1px solid white;
     text-decoration: none;
 }
+#masthead .subnav a:active,
 #masthead .subnav a:hover {
-    color: rgb(195,195,195);
-    border-color: rgb(195,195,195);
+    border-color: #c3c3c3;
+}
+body[data-route-name="makingOfJack"] #masthead li[data-slug="making-of-jack"] a,
+body[data-route-name="galore"] #masthead li[data-slug="galore"] a,
+#masthead .subnav .selected a,
+#masthead .subnav a.selected {
+    color: #000;
+    border-color: #000;
 }
 body[data-path="issues_single"] #masthead .subnav {
 }
@@ -32,9 +39,8 @@ body[data-path="issues_single"] #masthead .subnav {
         height: 65px;
     }
     #masthead .subnav a {
-        height: 24px;
         line-height: 21px;
-        padding-bottom: 0;
+        padding: 6px 1px 0;
     }
     #masthead .subnav {
         top: 30px;

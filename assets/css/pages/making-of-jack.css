@@ -1,0 +1,17 @@
+.making-of-title {
+    margin-bottom: 48px;
+}
+.making-of-title h2 {
+    text-align: center;
+    line-height: 1;
+    font-size: 56px;
+    margin: 0 0 12px;
+}
+.making-of-title p {
+    margin: 0;
+    text-align: right;
+}
+body[data-route-name="makingOfJack"] #page-content video {
+    display: block;
+    margin: 0 auto 32px;
+}

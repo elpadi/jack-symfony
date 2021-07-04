@@ -139,15 +139,39 @@ class FrontendController extends AbstractController
     /**
      * @Route("/special-project")
      */
-    public function specialProject(): Response
+    public function specialProject(Page $page): Response
     {
-        return $this->page(__FUNCTION__);
+        return $this->page(__FUNCTION__, $page);
     }
 
     /**
      * @Route("/new", name="page-new")
      */
     public function pageNew(Page $page): Response
+    {
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/making-of-jack")
+     */
+    public function makingOfJack(Page $page): Response
+    {
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/galore")
+     */
+    public function galore(Page $page): Response
+    {
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/stop-asian-hate")
+     */
+    public function stopAsianHate(Page $page): Response
     {
         return $this->page(__FUNCTION__, $page);
     }

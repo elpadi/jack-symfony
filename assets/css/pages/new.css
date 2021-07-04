@@ -1,11 +1,3 @@
-@font-face {
-    font-family: 'archivo_blackregular';
-    src: url('/fonts/archivoblack/archivoblack-regular.woff2') format('woff2'),
-         url('/fonts/archivoblack/archivoblack-regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .arial-black,
 body .galore-teaser-title {
     font-family: 'Arial Black', 'archivo_blackregular', sans-serif;

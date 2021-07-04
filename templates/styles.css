@@ -1,18 +1,3 @@
-@font-face {
-    font-family: 'CooperFiveOpti-Black';
-    src:  url('/fonts/cooper/CooperFiveOpti-Black.ttf.woff') format('woff'),
-    url('/fonts/cooper/CooperFiveOpti-Black.ttf.svg#CooperFiveOpti-Black') format('svg'),
-    url('/fonts/cooper/CooperFiveOpti-Black.ttf.eot'),
-    url('/fonts/cooper/CooperFiveOpti-Black.eot?#iefix') format('embedded-opentype'); 
-    font-weight: normal;
-    font-style: normal;
-}
-.cooper {
-    font-family: 'CooperFiveOpti-Black';  
-    color: black;
-    font-weight: normal;
-}
-
 * {
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -116,18 +101,17 @@ img {
 	justify-content: center;
 	flex-wrap: wrap;
 }
-#header__nav li {
+#header__nav a {
+    text-decoration: none;
 }
 .subnav a,
 #header__nav a {
     color: #9e9e9e;
-	/*color: #d4d0d0;*/
 }
 body[data-route-name="pageNew"] #header__nav li[data-section="new"] a,
 #header__nav li.selected a,
 #header__nav a:hover {
     color: black;
-    border-top-color: currentColor;
 }
 
 header .far-right {
@@ -207,6 +191,11 @@ header .far-right {
 	margin-top: 15%;
 	padding: 0 10px;
 	font: 18px/1.5 "Lusitana", serif;
+}
+@media (min-width: 870px) {
+    #page-content {
+        margin-top: 100px;
+    }
 }
 #page-content .text-content {
     max-width: 720px;
@@ -309,20 +298,4 @@ header .far-right {
     max-height: 640px;
     max-width: 720px;
     object-fit: contain;
-}
-
-.making-of-title {
-    margin-bottom: 48px;
-}
-.making-of-title h2 {
-    text-align: center;
-    font-size: 3rem;
-    margin: 0;
-}
-.making-of-title p {
-    margin: 0;
-    font-family: Montserrat;
-    text-align: right;
-    font-style: italic;
-    font-weight: 300;
 }

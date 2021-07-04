@@ -48,8 +48,15 @@ trait Image
             return getimagesize($imgFilePath);
         };
 
+        $parse = function($size) {
+            return [
+                'width' => $size[0],
+                'height' => $size[1],
+            ];
+        };
+
         if (($_ENV['APP_ENV'] ?? 'prod') == 'dev') {
-            return $fetch();
+            return $parse($fetch());
         }
 
         $size = $cache->get(
@@ -60,10 +67,7 @@ trait Image
             }
         );
 
-        return [
-            'width' => $size[0],
-            'height' => $size[1],
-        ];
+        return $parse($size);
     }
 
     protected function cockpitPathToSymfonyPath(string $path): string
