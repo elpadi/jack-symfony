@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SITE_URL="elpadi@thejackmag.com"
-SITE_REMOTE_DIR="/home1/elpadi/symfony"
+SITE_REMOTE_DIR="/home1/elpadi/public_html"
 SSH_PORT=2222
 
 . "$HOME/Work/elpadi/shell-scripts/site-ssh"

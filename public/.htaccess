@@ -21,10 +21,10 @@ DirectoryIndex index.php
     RewriteEngine On
 
     # Maintenance mode
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_URI} !/maintenance.html$ 
-    RewriteCond %{HTTP_COOKIE} !jack_maintenance=JVWx8q6LvzhTdtDgazcRCkpC [NC]
-    RewriteRule $ /maintenance.html [R=302,L]
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteCond %{REQUEST_URI} !/maintenance.html$ 
+    #RewriteCond %{HTTP_COOKIE} !jack_maintenance=JVWx8q6LvzhTdtDgazcRCkpC [NC]
+    #RewriteRule $ /maintenance.html [R=302,L]
 
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the

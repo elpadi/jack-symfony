@@ -20,14 +20,21 @@ trait Cockpit
     protected function fetchCockpitData(string $method, ...$params): ?array
     {
         $cache = new FilesystemAdapter();
-        $key = str_replace(['{', '}', '/', ':'], ['[', ']', '-', ';'], $method . serialize($params)) . $_ENV['COCKPIT_DATA_VERSION'];
+        $key = str_replace(
+            ['{', '}', '/', ':'],
+            ['[', ']', '-', ';'],
+            $method . serialize($params)
+        ) . $_ENV['COCKPIT_DATA_VERSION'];
+
         $fetch = function () use ($method, $params) {
             array_unshift($params, $method);
             return call_user_func_array('cockpit', $params);
         };
+
         if ($_SERVER['APP_DEBUG']) {
-            return $fetch();
+            return $fetch() ?: null;
         }
+
         return $cache->get(
             $key,
             function (ItemInterface $item) use ($fetch) {

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Model\NavMenu\Item as NavMenuItem;
+
 use function Functional\group;
 use function Stringy\create as s;
 
@@ -29,9 +31,12 @@ trait Page
         }
     }
 
-    protected function groupSubNavs(array $mainsubnavitems): array
+    protected function groupSubNavs(?array $mainsubnavitems): array
     {
-        $groupedByParent = group($mainsubnavitems, function(array $item) {
+        if (!$mainsubnavitems) {
+            return [];
+        }
+        $groupedByParent = group($mainsubnavitems, function (array $item) {
             return $item['parent'];
         });
         foreach ($groupedByParent as $parent => $items) {
@@ -42,23 +47,8 @@ trait Page
 
     protected function addMenuItemsInfo(array $mainmenu): array
     {
-        $itemInfo = function (array $item) {
-            if (empty($item['url'])) {
-                return [
-                    'route' => 'none',
-                    'section' => (string) s($item['title'])->slugify(),
-                    'url' => '#',
-                ];
-            }
-            return [
-                'route' => $item['url'],
-                'url' => substr_count($item['url'], 'http') ? $item['url'] : $this->router->generate($item['url']),
-                'section' => (string) s($item['url'])->slugify(),
-            ];
-        };
-
-        return array_map(function (array $item) use ($itemInfo) {
-            return array_merge($item, $itemInfo($item));
+        return array_map(function (array $item) {
+            return NavMenuItem::createFromRawItem($item, $this->router)->toArray();
         }, $mainmenu);
     }
 
@@ -85,7 +75,7 @@ trait Page
         $this->addUrlToIssues($issues);
 
         $mainmenu = $this->fetchCockpitData('collections:find', 'mainmenu');
-        $mainmenu = $this->addMenuItemsInfo($mainmenu);
+        $mainmenu = $this->addMenuItemsInfo($mainmenu, $pagePath);
 
         $mainsubnavs = $this->fetchCockpitData('collections:find', 'mainsubnavs');
         $mainsubnavs = $this->groupSubNavs($mainsubnavs);
