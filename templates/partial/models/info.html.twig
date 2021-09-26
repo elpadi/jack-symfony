@@ -1,0 +1,18 @@
+<h4>First Impression</h4>
+<p>{{ m.impression }}</p>
+<h4>Beginning</h4>
+<p>{{ m.beginning }}</p>
+<h4>Our Experience</h4>
+{{ m.story | md | raw }}
+<h4>Secrets</h4>
+{{ m.secrets | md | raw }}
+{% if m.awards is not empty %}
+<h4>Who Loves Her</h4>
+<p>{{ m.awards | mdp | raw }}</p>
+{% endif %}
+<h4>Triumph</h4>
+<p>{{ m.work }}</p>
+<h4>Fashion</h4>
+<p>{{ m.fashion | mdp | raw }}</p>
+<h4>Instagram</h4>
+<p><a href="https://instagram.com/{{ m.instagram }}" rel="nofollow" target="_blank">{{ m.instagram }}</a></p>

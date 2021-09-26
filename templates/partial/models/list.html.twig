@@ -1,0 +1,10 @@
+{% set is_single = models | length == 1 %}
+<section class="models lowercase no-underline" data-is-single="{{ is_single ? 'true' : 'false' }}">
+	{% for m in models %}
+	<article class="model" data-slug="{{ m.name | slugify }}">
+		<header>{% include 'partial/models/profile.html.twig' %}</header>
+		{% if is_single %}<main>{% include 'partial/models/info.html.twig' %}</main>{% endif %}
+	</article>
+	<hr>
+	{% endfor %}
+</section>

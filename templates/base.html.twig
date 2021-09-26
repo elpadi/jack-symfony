@@ -29,6 +29,13 @@
     {{ encore_entry_link_tags('app') | replace({ stylesheet: 'preload" as="style' }) | raw }}
 
 	<script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <script>
+      window.addEventListener('load', function () {
+        for (link of document.querySelectorAll('link[rel="preload"][as="style"]')) {
+          link.rel = 'stylesheet';
+        }
+      });
+    </script>
 </head>
 
 <body data-route-name="{{ routeName }}" data-tpl="{{ tpl }}">

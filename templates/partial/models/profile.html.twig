@@ -1,0 +1,16 @@
+<figure class="{{ m.images | length == 1 ? 'single' : 'double' }}">
+	{% if not is_single %}
+	<a class="plain" href="{{ path('model', { 'slug': m.name | slugify }) }}">
+	{% else %}
+	<span>
+	{% endif %}
+		{% for img in m.images %}
+		<img src="{{ asset(img.path) }}" alt="">
+		{% endfor %}
+	{% if not is_single %}
+	</a>
+	{% else %}
+	</span>
+	{% endif %}
+	<figcaption><aside class="plain">{{ m.fashion | mdp | raw }}</aside>{% if not is_single %}<a class="plain" href="{{ path('model', { 'slug': m.name | slugify }) }}">{% endif %}<span class="name">{{ m.name }}</span><br><span class="origin">{{ m.origin }}</span>{% if not is_single %}</a>{% endif %}</figcaption>
+</figure>

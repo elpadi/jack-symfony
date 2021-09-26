@@ -1,4 +1,15 @@
 name: thejackmag
 recipe: symfony
+services:
+  node:
+    type: node:14
+    port: 8080
+    globals:
+      yarn: latest
 config:
   webroot: public
+tooling:
+  npm:
+    service: node
+  yarn:
+    service: node

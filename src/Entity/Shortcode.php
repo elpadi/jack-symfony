@@ -7,11 +7,22 @@ use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\Processor\Processor;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+use function Stringy\create as s;
+
 trait Shortcode
 {
     use Cockpit;
 
     protected $shortcodeHandlers;
+
+    /**
+     * [jbpc_models]
+     */
+    public function jbpcModelsShortcode(ShortcodeInterface $shortcode): string
+    {
+        $this->data['page']['models'] = $this->fetchCockpitCollectionEntries('models');
+        return "{% include 'partial/models/list.html.twig' with {'models': page.models} only %}";
+    }
 
     /**
      * [layouts collection=gallorelayouts field=media]
@@ -41,7 +52,14 @@ trait Shortcode
     protected function initShortcodes(): void
     {
         $this->shortcodeHandlers = new HandlerContainer();
-        $this->shortcodeHandlers->add('layouts', [$this, 'layoutsShortcode']);
+        $shortcodes = [
+            'layouts',
+            'jbpc_models',
+        ];
+        foreach ($shortcodes as $shortcode) {
+            $fn = (string) s($shortcode)->camelize() . 'Shortcode';
+            $this->shortcodeHandlers->add($shortcode, [$this, $fn]);
+        }
     }
 
     protected function parseShortcodes(string $content): string

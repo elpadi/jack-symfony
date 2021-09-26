@@ -43,10 +43,10 @@ class Page
         } else {
             $this->addImageData($this->data['page']['background']);
         }
+        $this->preprocessData($this->data);
         if (!empty($this->data['page']['content'])) {
             $this->data['page']['content'] = $this->parseShortcodes($this->data['page']['content']);
         }
-        $this->preprocessData($this->data);
         return $this->data;
     }
 }

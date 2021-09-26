@@ -39,17 +39,19 @@ trait Cockpit
         $key = str_replace(
             ['{', '}', '/', ':'],
             ['[', ']', '-', ';'],
-            $apiPath,
+            $apiPath . serialize($params),
         ) . $_ENV['COCKPIT_DATA_VERSION'];
 
         $fetch = function () use ($apiPath, $params) {
-            $params['token'] = $_ENV['COCKPIT_API_TOKEN'];
+            $apiParams = array_merge($params, [
+                'token' => $_ENV['COCKPIT_API_TOKEN'],
+            ]);
             $data = file_get_contents(
                 sprintf(
                     '%s/%s?%s',
                     $_ENV['COCKPIT_API_URL'],
                     $apiPath,
-                    http_build_query($params)
+                    http_build_query($apiParams)
                 )
             );
             return $data ? json_decode($data, true) : null;
@@ -63,9 +65,7 @@ trait Cockpit
             $key,
             function (ItemInterface $item) use ($fetch) {
                 $item->expiresAfter(3600 * static::$dataCacheHours);
-                if ($data = $fetch()) {
-                    return $data;
-                }
+                return $fetch();
             }
         );
     }

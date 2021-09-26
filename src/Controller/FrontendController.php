@@ -19,6 +19,11 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;
+use Twig\{
+    TwigFunction,
+    TwigFilter
+};
+use cebe\markdown\Markdown;
 use App\Entity\Pages\{
     Page,
     Home as HomePage,
@@ -34,27 +39,49 @@ use function Functional\last;
 
 class FrontendController extends AbstractController
 {
-    protected function page(string $path, $dataOrPage): Response
+    protected function enableMarkdownTemplates(): void
     {
-        $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
+        $twig = $this->get('twig');
+        $twig->addFunction(new TwigFunction('region', function ($name) {
+            return (new Markdown())->parse(file_get_contents(static::getTemplateDir() . "/regions/$name.md"));
+        }));
+        $twig->addFilter(new TwigFilter('md', function ($text) {
+            return (new Markdown())->parse($text);
+        }));
+        $twig->addFilter(new TwigFilter('mdp', function ($text) {
+            return (new Markdown())->parseParagraph($text);
+        }));
+    }
+
+    /**
+     * @throws RuntimeException The page template was not found.
+     */
+    protected function loadPage(string $path, array $data): Response
+    {
         $twigLoader = $this->get('twig')->getLoader();
         TwigHelper::init($this->get('twig'));
 
-        foreach (
-            [
-                "routes/$path",
-                "page",
-            ] as $route
-        ) {
-            $tpl = "$route.html.twig";
+        $tplPaths = [
+            "routes/$path",
+            "page",
+        ];
+
+        foreach ($tplPaths as $tplPath) {
+            $tpl = "$tplPath.html.twig";
             if ($twigLoader->exists($tpl)) {
                 $data['routeName'] = $path;
-                $data['tpl'] = str_replace(['routes/', '/'], ['', '-'], $route);
+                $data['tpl'] = str_replace(['routes/', '/'], ['', '-'], $tplPath);
                 return $this->render($tpl, $data);
             }
         }
-
         throw new RuntimeException("Could not find a template.");
+    }
+
+    protected function page(string $path, $dataOrPage): Response
+    {
+        $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
+        $this->enableMarkdownTemplates();
+        return $this->loadPage($path, $data);
     }
 
     /**
@@ -172,6 +199,22 @@ class FrontendController extends AbstractController
      * @Route("/stop-asian-hate")
      */
     public function stopAsianHate(Page $page): Response
+    {
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/models")
+     */
+    public function models(Page $page): Response
+    {
+        return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/models/{slug}", name="model")
+     */
+    public function model(string $slug, Page $page): Response
     {
         return $this->page(__FUNCTION__, $page);
     }
