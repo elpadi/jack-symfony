@@ -11,8 +11,8 @@ trait Cockpit
 
     protected function fetchCockpitCollectionEntries(string $collectionName): array
     {
-        $entries = $this->fetchCockpitData("collections/get/$collectionName");
-        return $entries ? ($entries->entries ?? []) : [];
+        $entries = $this->fetchCockpitData("collections/entries/$collectionName");
+        return $entries ? ($entries['entries'] ?? []) : [];
     }
 
     protected function fetchCockpitCollectionEntry(string $collectionName, array $filter): ?array
@@ -47,7 +47,7 @@ trait Cockpit
             $data = file_get_contents(
                 sprintf(
                     '%s/%s?%s',
-                    'https://cockpit.thejackmag.com/api',
+                    $_ENV['COCKPIT_API_URL'],
                     $apiPath,
                     http_build_query($params)
                 )
@@ -55,7 +55,7 @@ trait Cockpit
             return $data ? json_decode($data, true) : null;
         };
 
-        if ($_SERVER['APP_DEBUG']) {
+        if ((int) $_ENV['COCKPIT_CACHE_ENABLED'] !== 1) {
             return $fetch() ?: null;
         }
 
