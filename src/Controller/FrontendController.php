@@ -34,21 +34,8 @@ use function Functional\last;
 
 class FrontendController extends AbstractController
 {
-    private function ensureCockpitIsLoaded(): void
-    {
-        if (!function_exists('cockpit')) {
-            $path = sprintf(
-                '%s/%s/admin/bootstrap.php',
-                $this->getParameter('kernel.project_dir'),
-                $_ENV['PUBLIC_PATH'] ?? 'public'
-            );
-            require_once $path;
-        }
-    }
-
     protected function page(string $path, $dataOrPage): Response
     {
-        $this->ensureCockpitIsLoaded();
         $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
         $twigLoader = $this->get('twig')->getLoader();
         TwigHelper::init($this->get('twig'));

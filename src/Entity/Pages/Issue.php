@@ -9,11 +9,8 @@ class Issue extends Page
 
     public function fetchIssue(int $id, string $slug)
     {
-        $this->issue = $this->fetchCockpitData('collections:findOne', 'issues', compact('id'));
-        $this->layouts = $this->fetchCockpitData(
-            'collections:find',
-            sprintf('issue%dlayouts', $id)
-        );
+        $this->issue = $this->fetchCockpitCollectionEntry('issues', compact('id'));
+        $this->layouts = $this->fetchCockpitData(sprintf('issue%dlayouts', $id));
     }
 
     protected function addLayoutDimensions(&$layout): void

@@ -9,26 +9,50 @@ trait Cockpit
 {
     protected static $dataCacheHours = 24;
 
+    protected function fetchCockpitCollectionEntries(string $collectionName): array
+    {
+        $entries = $this->fetchCockpitData("collections/get/$collectionName");
+        return $entries ? ($entries->entries ?? []) : [];
+    }
+
+    protected function fetchCockpitCollectionEntry(string $collectionName, array $filter): ?array
+    {
+        $entry = $this->fetchCockpitData(
+            "collections/entry/$collectionName",
+            compact('filter')
+        );
+        return $entry ?: null;
+    }
+
     /**
-     * Fetch data from cockpit.
+     * Fetch data from cockpit using the API.
      *
-     * @param string $method {module}:{function} e.g. collections:findOne
-     * @param array  $params parameters passed to cockpit function.
+     * @see https://getcockpit.com/documentation/api/collections
+     *
+     * @param string $apiPath e.g. collections/get/{collectionName}
      *
      * @return array
      */
-    protected function fetchCockpitData(string $method, ...$params): ?array
+    private function fetchCockpitData(string $apiPath, array $params = []): ?array
     {
         $cache = new FilesystemAdapter();
         $key = str_replace(
             ['{', '}', '/', ':'],
             ['[', ']', '-', ';'],
-            $method . serialize($params)
+            $apiPath,
         ) . $_ENV['COCKPIT_DATA_VERSION'];
 
-        $fetch = function () use ($method, $params) {
-            array_unshift($params, $method);
-            return call_user_func_array('cockpit', $params);
+        $fetch = function () use ($apiPath, $params) {
+            $params['token'] = $_ENV['COCKPIT_API_TOKEN'];
+            $data = file_get_contents(
+                sprintf(
+                    '%s/%s?%s',
+                    'https://cockpit.thejackmag.com/api',
+                    $apiPath,
+                    http_build_query($params)
+                )
+            );
+            return $data ? json_decode($data, true) : null;
         };
 
         if ($_SERVER['APP_DEBUG']) {
@@ -39,7 +63,6 @@ trait Cockpit
             $key,
             function (ItemInterface $item) use ($fetch) {
                 $item->expiresAfter(3600 * static::$dataCacheHours);
-                array_unshift($params, $method);
                 if ($data = $fetch()) {
                     return $data;
                 }

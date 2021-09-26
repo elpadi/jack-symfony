@@ -18,10 +18,7 @@ trait Shortcode
      */
     public function layoutsShortcode(ShortcodeInterface $shortcode): string
     {
-        $entries = $this->fetchCockpitData(
-            'collections:find',
-            $shortcode->getParameter('collection'),
-        );
+        $entries = $this->fetchCockpitCollectionEntries($shortcode->getParameter('collection'));
         $field = $shortcode->getParameter('field');
 
         foreach ($entries as $entry) {

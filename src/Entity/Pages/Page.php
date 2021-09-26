@@ -4,6 +4,7 @@ namespace App\Entity\Pages;
 
 use App\Entity\{
     Shortcode,
+    Cockpit,
     Image as ImageTrait,
     Page as PageTrait
 };
@@ -17,6 +18,7 @@ class Page
     use Shortcode;
     use ImageTrait;
     use PageTrait;
+    use Cockpit;
 
     protected $router;
     protected $data;

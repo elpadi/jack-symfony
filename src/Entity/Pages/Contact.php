@@ -26,17 +26,6 @@ use Symfony\Component\Validator\Constraints\{
 
 class Contact extends Page
 {
-    protected function getDeckImages(): array
-    {
-        $images = cockpit('collections:find', 'deck2016images');
-        foreach ($images as &$img) {
-            $path = str_replace('assets/', '', $img['image']['path']);
-            $img['src'] = $this->publicPath->getUrl("img/quarter/$path");
-            $img['srcset'] = $this->getImageSrcSet($path, (int) $img['width']);
-        }
-        return $images;
-    }
-
     public function createContactForm(FormBuilderInterface $formBuilder): FormInterface
     {
         $formFactory = $formBuilder->getFormFactory();

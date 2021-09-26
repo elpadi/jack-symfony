@@ -59,25 +59,23 @@ trait Page
 
     protected function fetchPageData(string $pagePath): ?array
     {
-        return $this->fetchCockpitData(
-            'collections:findOne',
-            'pages',
-            ['path' => $pagePath]
-        );
+        return $this->fetchCockpitCollectionEntry('pages', [
+            'path' => $pagePath,
+        ]);
     }
 
     protected function getDefaultPageData(string $pagePath): array
     {
-        $social = $this->fetchCockpitData('collections:find', 'socialmenu');
+        $social = $this->fetchCockpitCollectionEntries('socialmenu');
         $this->addSocialIcons($social);
 
-        $issues = $this->fetchCockpitData('collections:find', 'issues');
+        $issues = $this->fetchCockpitCollectionEntries('issues');
         $this->addUrlToIssues($issues);
 
-        $mainmenu = $this->fetchCockpitData('collections:find', 'mainmenu');
+        $mainmenu = $this->fetchCockpitCollectionEntries('mainmenu');
         $mainmenu = $this->addMenuItemsInfo($mainmenu, $pagePath);
 
-        $mainsubnavs = $this->fetchCockpitData('collections:find', 'mainsubnavs');
+        $mainsubnavs = $this->fetchCockpitCollectionEntries('mainsubnavs');
         $mainsubnavs = $this->groupSubNavs($mainsubnavs);
 
         return [
