@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Traits;
 
 use App\Model\NavMenu\Item as NavMenuItem;
 
 use function Functional\group;
 use function Stringy\create as s;
 
-trait Page
+trait PageTrait
 {
-    use Cockpit;
+    use CockpitTrait;
 
     protected function addSocialIcons(&$social): void
     {

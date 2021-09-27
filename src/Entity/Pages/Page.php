@@ -2,11 +2,11 @@
 
 namespace App\Entity\Pages;
 
-use App\Entity\{
-    Shortcode,
-    Cockpit,
-    Image as ImageTrait,
-    Page as PageTrait
+use App\Entity\Traits\{
+    ShortcodeTrait,
+    CockpitTrait,
+    ImageTrait,
+    PageTrait
 };
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -15,10 +15,10 @@ use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 
 class Page
 {
-    use Shortcode;
-    use ImageTrait;
     use PageTrait;
-    use Cockpit;
+    use ImageTrait;
+    use CockpitTrait;
+    use ShortcodeTrait;
 
     protected $router;
     protected $data;

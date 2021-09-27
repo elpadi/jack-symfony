@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Traits;
 
+use App\Entity\Magazine\Models;
 use Thunder\Shortcode\HandlerContainer\HandlerContainer;
 use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\Processor\Processor;
@@ -9,9 +10,9 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 use function Stringy\create as s;
 
-trait Shortcode
+trait ShortcodeTrait
 {
-    use Cockpit;
+    use CockpitTrait;
 
     protected $shortcodeHandlers;
 
@@ -20,7 +21,7 @@ trait Shortcode
      */
     public function jbpcModelsShortcode(ShortcodeInterface $shortcode): string
     {
-        $this->data['page']['models'] = $this->fetchCockpitCollectionEntries('models');
+        $this->data['page']['models'] = (new Models())->fetchAll();
         return "{% include 'partial/models/list.html.twig' with {'models': page.models} only %}";
     }
 

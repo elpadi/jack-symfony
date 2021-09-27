@@ -5,7 +5,7 @@
 	<span>
 	{% endif %}
 		{% for img in m.images %}
-		<img src="{{ asset(img.path) }}" alt="">
+        <img src="{{ asset(img.path) }}" width="{{ img.width }}" height="{{ img.height }}" alt="" loading="lazy">
 		{% endfor %}
 	{% if not is_single %}
 	</a>

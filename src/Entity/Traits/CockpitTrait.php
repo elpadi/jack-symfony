@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Traits;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
-trait Cockpit
+trait CockpitTrait
 {
     protected static $dataCacheHours = 24;
 

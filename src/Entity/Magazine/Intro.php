@@ -2,18 +2,15 @@
 
 namespace App\Entity\Magazine;
 
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Contracts\Cache\ItemInterface;
-use App\Entity\Images;
+use App\Entity\Traits\ImageTrait;
 
 class Intro
 {
-    use Images;
+    use ImageTrait;
 
     public function fetchImages(): array
     {
-        $assetsDir = ($_ENV['PUBLIC_DIR'] ?? dirname(__DIR__, 3)) . '/assets';
-        $paths = glob($assetsDir . '/intro/*.jpg');
+        $paths = glob($_ENV['PUBLIC_DIR'] . '/assets/intro/*.jpg');
         return array_map([$this, 'fetchImageInfo'], $paths);
     }
 }

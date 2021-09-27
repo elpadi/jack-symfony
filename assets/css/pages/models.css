@@ -59,11 +59,14 @@ body[data-url-path~="pussycats"] #page-content--models.page-content {
 	align-items: center;
 }
 #page-content .models figure aside {
-	transform: rotate(-90deg) translate(5em, 0.4em);
+    position: absolute;
+	top: 100%;
+	bottom: auto;
+    right: -1px;
+    transform: translate(100%, -40px) rotate(-90deg);
 	transform-origin: left top;
 	text-align: left;
-	bottom: auto;
-	top: 100%;
+    font-size: 12px;
 }
 #page-content .models figure aside a {
 	opacity: 0.5;
@@ -90,6 +93,7 @@ body[data-url-path~="pussycats"] #page-content--models.page-content {
 	clear: both;
 	text-align: right;
 	font-size: 0.7em;
+    position: relative;
 }
 #page-content .models .name {
 	font-size: 1.4em;

@@ -66,7 +66,7 @@
         <aside id="intro" data-end-url="{{ path(intro.endRoute) }}">
             <noscript>
                 {% for img in intro.images %}
-                <img src="{{ img.path }}" {{ img.getimagesize[3] | raw }}>
+                {% include 'partial/image.html.twig' %}
                 {% endfor %}
             </noscript>
         </aside>
