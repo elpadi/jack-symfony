@@ -1,7 +1,12 @@
 #!/bin/bash
 
 SITE_URL="elpadi@thejackmag.com"
-SITE_REMOTE_DIR="/home1/elpadi/public_html"
 SSH_PORT=2222
+
+if [[ $ENV == "staging" ]]; then
+    SITE_REMOTE_DIR="/home1/elpadi/staging.thejackmag.com/symfony/public"
+elif [[ $ENV == "prod" ]]; then
+    SITE_REMOTE_DIR="/home1/elpadi/public_html"
+fi
 
 . "$HOME/Work/elpadi/shell-scripts/site-ssh"
