@@ -11,5 +11,7 @@ config:
 tooling:
   npm:
     service: node
+  npx:
+    service: node
   yarn:
     service: node
