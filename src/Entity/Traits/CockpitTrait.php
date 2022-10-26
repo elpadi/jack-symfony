@@ -21,8 +21,12 @@ trait CockpitTrait
             return $cockpitPath;
         }
 
+        if (strpos($cockpitPath, '/') === 0) {
+            return $cockpitPath;
+        }
+
         if ($_ENV['APP_ENV'] !== 'prod') {
-            var_dump(__FILE__ . ":" . __LINE__ . " - " . __METHOD__);
+            var_dump(__FILE__ . ":" . __LINE__ . " - " . __METHOD__, $cockpitPath, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
             exit(0);
         }
 
@@ -47,7 +51,7 @@ trait CockpitTrait
      *
      * @return array
      */
-    private function fetchCockpitData(string $apiPath, array $params = []): ?array
+    protected function fetchCockpitData(string $apiPath, array $params = []): ?array
     {
         $cache = new FilesystemAdapter();
         $key = str_replace(
