@@ -42,7 +42,7 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(true)
     // enables hashed filenames (e.g. app.abc123.css)
-    //.enableVersioning(Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
 
     // disable Babel
     .configureBabel(config => {

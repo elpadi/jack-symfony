@@ -15,22 +15,19 @@ trait CockpitTrait
         return $entries ? ($entries['entries'] ?? []) : [];
     }
 
-    protected function cockpitPathToSymfonyPath(string $cockpitPath): string
+    protected function cockpitPathToUrl(string $cockpitPath): string
     {
-        if (strpos($cockpitPath, 'http') !== false) {
+        if (strpos($cockpitPath, 'http') === 0) {
             return $cockpitPath;
         }
 
-        if (strpos($cockpitPath, '/') === 0) {
-            return $cockpitPath;
+        $cockpitPath = '/' . trim($cockpitPath, '/');
+
+        if (strpos($cockpitPath, '/assets/') === 0) {
+            $cockpitPath = "/storage{$cockpitPath}";
         }
 
-        if ($_ENV['APP_ENV'] !== 'prod') {
-            var_dump(__FILE__ . ":" . __LINE__ . " - " . __METHOD__, $cockpitPath, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-            exit(0);
-        }
-
-        return $cockpitPath;
+        return "https://cockpit.thejackmag.com{$cockpitPath}";
     }
 
     protected function fetchCockpitCollectionEntry(string $collectionName, array $filter): ?array
@@ -51,7 +48,7 @@ trait CockpitTrait
      *
      * @return array
      */
-    protected function fetchCockpitData(string $apiPath, array $params = []): ?array
+    private function fetchCockpitData(string $apiPath, array $params = []): ?array
     {
         $cache = new FilesystemAdapter();
         $key = str_replace(

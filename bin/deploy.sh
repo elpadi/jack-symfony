@@ -48,6 +48,11 @@ while [[ $# > 0 ]]; do
         echo -e "ssh $SITE_URL 'cd $PUBLIC_REMOTE_DIR && tar -xzf public.tar.gz && rm public.tar.gz' \n"
         ssh $SITE_URL "cd $PUBLIC_REMOTE_DIR && tar -xzf public.tar.gz && rm public.tar.gz"
 
+        if [[ $ENV == "prod" ]]; then
+            # mirror real public dir to symfony public dir
+            ssh $SITE_URL "rm -rf $SYMFONY_REMOTE_DIR/public/build/* && cp -r $PUBLIC_REMOTE_DIR/build/* $SYMFONY_REMOTE_DIR/public/build/"
+        fi
+
         rm public.tar.gz
 
         cd ..
