@@ -15,6 +15,20 @@ trait CockpitTrait
         return $entries ? ($entries['entries'] ?? []) : [];
     }
 
+    protected function cockpitPathToSymfonyPath(string $cockpitPath): string
+    {
+        if (strpos($cockpitPath, 'http') !== false) {
+            return $cockpitPath;
+        }
+
+        if ($_ENV['APP_ENV'] !== 'prod') {
+            var_dump(__FILE__ . ":" . __LINE__ . " - " . __METHOD__);
+            exit(0);
+        }
+
+        return $cockpitPath;
+    }
+
     protected function fetchCockpitCollectionEntry(string $collectionName, array $filter): ?array
     {
         $entry = $this->fetchCockpitData(

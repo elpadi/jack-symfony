@@ -61,9 +61,9 @@ trait ImageTrait
                 $path
             ),
         ];
-        foreach ($paths as $path) {
-            if (is_readable($path)) {
-                return realpath($path);
+        foreach ($paths as $publicPath) {
+            if (is_readable($publicPath)) {
+                return realpath($publicPath);
             }
         }
         throw new InvalidArgumentException("Could not find image at $path.");

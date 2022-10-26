@@ -42,6 +42,7 @@ trait ShortcodeTrait
             if (in_array($ext, ['mp4', 'mov', 'wmv', 'ogv'])) {
                 $layout['mediaType'] = 'video';
                 $layout['src'] = $this->cockpitPathToSymfonyPath($layout['path']);
+                $layout['poster'] = str_replace(['mp4', 'm4v'], 'jpg', $layout['src']);
             }
             $layouts[] = $layout;
         }
