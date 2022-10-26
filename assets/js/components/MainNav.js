@@ -25,15 +25,17 @@ export class MainNav {
         if (subNav) {
             subNav.classList.toggle('expanded');
             mainNavItem.classList.toggle('selected');
+            return true;
         }
+
+        return false;
     }
 
     handleClick(event) {
         const link = this.getEventLink(event);
 
-        if (link && link.parentElement.dataset.section) {
+        if (link && link.parentElement.dataset.section && this.toggleSubNav(link.parentElement)) {
             event.preventDefault();
-            this.toggleSubNav(link.parentElement);
         }
     }
 
