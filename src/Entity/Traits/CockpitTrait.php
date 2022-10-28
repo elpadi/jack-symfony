@@ -15,6 +15,21 @@ trait CockpitTrait
         return $entries ? ($entries['entries'] ?? []) : [];
     }
 
+    protected function cockpitPathToUrl(string $cockpitPath): string
+    {
+        if (strpos($cockpitPath, 'http') === 0) {
+            return $cockpitPath;
+        }
+
+        $cockpitPath = '/' . trim($cockpitPath, '/');
+
+        if (strpos($cockpitPath, '/assets/') === 0) {
+            $cockpitPath = "/storage{$cockpitPath}";
+        }
+
+        return "https://cockpit.thejackmag.com{$cockpitPath}";
+    }
+
     protected function fetchCockpitCollectionEntry(string $collectionName, array $filter): ?array
     {
         $entry = $this->fetchCockpitData(

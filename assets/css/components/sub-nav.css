@@ -53,9 +53,9 @@ body[data-path="issues_single"] #masthead .subnav {
         visibility: hidden;
     }
     #masthead .subnav[data-parent="issues"] {
-        left: calc(50% - 192px);
+        left: calc(50% - 111px);
     }
     #masthead .subnav[data-parent="page-new"] {
-        left: calc(50% + 200px);
+        left: calc(50% - 189px);
     }
 }

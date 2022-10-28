@@ -85,7 +85,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home", priority=2)
      */
     public function home(HomePage $page): Response
     {
@@ -93,7 +93,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/jbpc", name="jbpc")
+     * @Route("/jbpc", name="jbpc", priority=2)
      */
     public function jbpc(): Response
     {
@@ -106,15 +106,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/about", name="about")
-     */
-    public function about(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact", name="contact", priority=2)
      */
     public function contact(ContactPage $page, Request $request, MailerInterface $mailer): Response
     {
@@ -134,7 +126,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/event", name="event")
+     * @Route("/event", name="event", priority=2)
      */
     public function event(EventPage $page): Response
     {
@@ -142,7 +134,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/issues", name="issues")
+     * @Route("/issues", name="issues", priority=2)
      */
     public function issues(): Response
     {
@@ -150,7 +142,7 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/issues/{id<\d+>}-{slug}/layouts", name="issue-layouts")
+     * @Route("/issues/{id<\d+>}-{slug}/layouts", name="issue-layouts", priority=2)
      */
     public function issueLayouts(int $id, string $slug, IssuePage $issuePage): Response
     {
@@ -164,59 +156,25 @@ class FrontendController extends AbstractController
     }
 
     /**
-     * @Route("/special-project")
-     */
-    public function specialProject(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/new", name="page-new")
-     */
-    public function pageNew(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/making-of-jack")
-     */
-    public function makingOfJack(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/galore")
-     */
-    public function galore(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/stop-asian-hate")
-     */
-    public function stopAsianHate(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/models")
-     */
-    public function models(Page $page): Response
-    {
-        return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/models/{slug}", name="model")
+     * @Route("/models/{slug}", name="model", priority=2)
      */
     public function model(string $slug, Page $page): Response
     {
         return $this->page(__FUNCTION__, $page);
+    }
+
+    /**
+     * @Route("/{slug}", name="page")
+     */
+    public function defaultPage(string $slug, Page $page): Response
+    {
+        $pageName = (string) s($slug)->camelize();
+
+        if ($pageName === 'new') {
+            $pageName = 'pageNew';
+        }
+
+        return $this->page($pageName, $page);
     }
 
     public function error(\Throwable $exception, Page $page): Response

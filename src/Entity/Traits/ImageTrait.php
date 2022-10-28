@@ -54,6 +54,13 @@ trait ImageTrait
                 $_ENV['PUBLIC_DIR'],
                 $path
             ),
+            // cockpit path
+            sprintf(
+                '%s/%s/%s',
+                $_ENV['PUBLIC_DIR'],
+                $_ENV['COCKPIT_PATH'],
+                $path
+            ),
             // public path
             sprintf(
                 '%s/%s',
@@ -61,9 +68,9 @@ trait ImageTrait
                 $path
             ),
         ];
-        foreach ($paths as $path) {
-            if (is_readable($path)) {
-                return realpath($path);
+        foreach ($paths as $publicPath) {
+            if (is_readable($publicPath)) {
+                return realpath($publicPath);
             }
         }
         throw new InvalidArgumentException("Could not find image at $path.");
@@ -114,6 +121,17 @@ trait ImageTrait
             $img['srcset'] = '';
             return;
         }
+
+        if (strpos($img['filePath'], 'cockpit') !== false) {
+            $img['src'] = str_replace(
+                realpath($_ENV['PUBLIC_DIR'] . '/' . $_ENV['COCKPIT_PATH']),
+                'https://cockpit.thejackmag.com',
+                $img['filePath']
+            );
+            $img['srcset'] = '';
+            return;
+        }
+
         $img['src'] = $this->publicPath->getUrl("img/quarter/$img[path]");
         $img['srcset'] = $this->getImageSrcSet($img['path'], $img['width']);
     }
@@ -122,8 +140,11 @@ trait ImageTrait
     {
         $img['filePath'] = $this->findImageRealPath($img['path']);
         $this->setImageDims($img);
-        $this->setImageSources($img);
+        //$this->setImageSources($img);
         $img['mediaType'] = 'image';
+
+        $img['src'] = $this->cockpitPathToUrl($img['path']);
+        $img['srcset'] = '';
     }
 
 

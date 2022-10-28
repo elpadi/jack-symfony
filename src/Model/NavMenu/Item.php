@@ -24,6 +24,10 @@ class Item
         $this->route = $route;
         $this->url = $url;
         $this->rawItem = $rawItem;
+
+        if (in_array($this->section, ['new'])) {
+            $this->section = "page-{$this->section}";
+        }
     }
 
     public static function createFromRawItem(array $rawItem, UrlGeneratorInterface $router): self
