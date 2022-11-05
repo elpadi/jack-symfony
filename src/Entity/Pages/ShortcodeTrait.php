@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Entity\Traits;
+namespace App\Entity\Pages;
 
+use App\Entity\Cockpit\CockpitTrait;
 use App\Entity\Magazine\Models;
-use Thunder\Shortcode\HandlerContainer\HandlerContainer;
-use Thunder\Shortcode\Parser\RegularParser;
-use Thunder\Shortcode\Processor\Processor;
-use Thunder\Shortcode\Shortcode\ShortcodeInterface;
+use Thunder\Shortcode\{
+    HandlerContainer\HandlerContainer,
+    Parser\RegularParser,
+    Processor\Processor,
+    Shortcode\ShortcodeInterface,
+}
 
 use function Stringy\create as s;
 
@@ -33,21 +36,8 @@ trait ShortcodeTrait
         $entries = $this->fetchCockpitCollectionEntries($shortcode->getParameter('collection'));
         $field = $shortcode->getParameter('field');
 
-        foreach ($entries as $entry) {
-            $layout = $entry[$field];
-            $ext = pathinfo($layout['path'], \PATHINFO_EXTENSION);
-            if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
-                $this->addImageData($layout);
-            }
-            if (in_array($ext, ['mp4', 'mov', 'wmv', 'ogv'])) {
-                $layout['mediaType'] = 'video';
-                $layout['src'] = str_replace(['mov', 'wmv', 'm4v'], 'mp4', $this->cockpitPathToUrl($layout['path']));
-                $layout['poster'] = str_replace(['mp4', 'm4v'], 'jpg', $layout['src']);
-            }
-            $layouts[] = $layout;
-        }
+        $this->data['page']['layouts'] = $this->parseAssets(array_map(fn ($entry) => $entry[$field], $entries ?: []));
 
-        $this->data['page']['layouts'] = $layouts ?? [];
         return "{% include 'partial/layouts.html.twig' with {'layouts': page.layouts} only %}";
     }
 

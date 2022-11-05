@@ -2,7 +2,7 @@
 
 namespace App\Entity\Magazine;
 
-use App\Entity\Traits\ImageTrait;
+use App\Model\Media\Image;
 
 class Intro
 {
@@ -10,7 +10,6 @@ class Intro
 
     public function fetchImages(): array
     {
-        $paths = glob($_ENV['PUBLIC_DIR'] . '/assets/intro/*.jpg');
-        return array_map([$this, 'fetchImageInfo'], $paths);
+        return array_map(fn ($path) => new Image($path), glob($_ENV['PUBLIC_DIR'] . '/assets/intro/*.jpg'));
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Entity\Traits;
+namespace App\Entity\Cockpit;
 
+use App\Model\Media\Factory as MediaFactory;
+use App\Model\Media\MediaInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -15,7 +17,16 @@ trait CockpitTrait
         return $entries ? ($entries['entries'] ?? []) : [];
     }
 
-    protected function cockpitPathToUrl(string $cockpitPath): string
+    /**
+     * @param array<int, array> $paths
+     * @return MediaInterface[]
+     */
+    public function parseAssets(array $assets): array
+    {
+        return array_map(fn ($asset) => (new MediaFactory())->createFromPath($asset['path']), $assets);
+    }
+
+    public function cockpitPathToUrl(string $cockpitPath): string
     {
         if (strpos($cockpitPath, 'http') === 0) {
             return $cockpitPath;
@@ -83,5 +94,35 @@ trait CockpitTrait
                 return $fetch();
             }
         );
+    }
+
+    /**
+     * @throws InvalidArgumentException When the image at the given path is not found.
+     */
+    protected function cockpitPathToRealPath(string $path): string
+    {
+        if (strpos($path, $_ENV['COCKPIT_DIR']) === 0) {
+            if (!is_readable($path)) {
+                throw new InvalidArgumentException("Could not find image at $path.");
+            }
+            return realpath($path);
+        }
+
+        $paths = [
+            // cockpit path
+            sprintf(
+                '%s/%s',
+                $_ENV['COCKPIT_DIR'],
+                $path
+            ),
+        ];
+
+        foreach ($paths as $publicPath) {
+            if (is_readable($publicPath)) {
+                return realpath($publicPath);
+            }
+        }
+
+        throw new InvalidArgumentException("Could not find image at $path.");
     }
 }
