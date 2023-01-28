@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Entity\Traits;
+namespace App\Entity\Pages;
 
 use App\Model\NavMenu\Item as NavMenuItem;
+use App\Entity\Cockpit\CockpitTrait;
 
 use function Functional\group;
 use function Stringy\create as s;

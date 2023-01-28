@@ -2,25 +2,21 @@
 
 namespace App\Entity\Magazine;
 
-use App\Entity\Traits\ImageTrait;
+use App\Entity\Cockpit\CockpitTrait;
 
 class Models
 {
+    use CockpitTrait;
     use ImageTrait;
 
     public function fetchAll(): array
     {
         $models = $this->fetchCockpitCollectionEntries('models');
-        foreach ($models as &$model) {
-            $this->addExtraInfo($model);
-        }
-        return $models;
-    }
 
-    private function addExtraInfo(&$model): void
-    {
-        foreach ($model['images'] as &$image) {
-            $this->addImageData($image);
+        foreach ($models as &$model) {
+            $model['images'] = $this->parseAssets($model['images'] ?: []);
         }
+
+        return $models;
     }
 }

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# img-resize image size outdir
+# Create a resized copy of an image.
+
+
+if [ "$1" = "-h"  -o "$1" = "--help" ]; then
+  echo "Create a resized copy of an image."
+  printf "\n"
+  echo "Usage: $0 image size outdir"
+  printf "\n"
+  echo "image: Path to the image that will be resized."
+  echo "size: Size accepted by imagemagick."
+  echo "outdir: Path where the new image will be created."
+  exit 0
+fi
+
+fileName=$(basename "$1")
+
+echo "Resizing $1 by $2"
+cp "$1" "$3"
+mogrify -filter Triangle -define filter:support=2 -thumbnail $2 -unsharp 0.25x0.08+8.3+0.045 -dither None -posterize 136 -quality 82 -define jpeg:fancy-upsampling=off -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all -interlace none -colorspace sRGB "$3/$fileName"
