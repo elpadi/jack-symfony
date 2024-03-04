@@ -3,6 +3,7 @@
 namespace App\Entity\Magazine;
 
 use App\Model\Media\Image;
+use App\Entity\Media\ImageTrait;
 
 class Intro
 {

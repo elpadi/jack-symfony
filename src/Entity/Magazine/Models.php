@@ -3,6 +3,7 @@
 namespace App\Entity\Magazine;
 
 use App\Entity\Cockpit\CockpitTrait;
+use App\Entity\Media\ImageTrait;
 
 class Models
 {

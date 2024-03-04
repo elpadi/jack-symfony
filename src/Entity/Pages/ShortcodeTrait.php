@@ -9,7 +9,7 @@ use Thunder\Shortcode\{
     Parser\RegularParser,
     Processor\Processor,
     Shortcode\ShortcodeInterface,
-}
+};
 
 use function Stringy\create as s;
 

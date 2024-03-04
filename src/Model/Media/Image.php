@@ -21,7 +21,12 @@ class Image extends AbstractMedia
         return 'image';
     }
 
-    public function __get(string $key): void
+    public function __call(string $name, array $arguments): mixed
+    {
+        return $this->__get($name);
+    }
+
+    public function __get(string $key)
     {
         if (!isset($this->srcsetByWidth)) {
             $this->hydrate();
@@ -43,6 +48,13 @@ class Image extends AbstractMedia
         if (isset($this->assetData[$key])) {
             return $this->assetData[$key];
         }
+
+        return match ($key) {
+            'title' => ucwords(basename($this->src, '.jpg')),
+            'width' => 0,
+            'height' => 0,
+            'path' => str_replace('storage/', '', parse_url($this->src, \PHP_URL_PATH)),
+        };
 
         throw new InvalidArgumentException("Unknow key {$key}.");
     }
