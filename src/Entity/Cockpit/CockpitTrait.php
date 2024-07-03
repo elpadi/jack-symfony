@@ -83,7 +83,7 @@ trait CockpitTrait
             return $data ? json_decode($data, true) : null;
         };
 
-        if ((int) $_ENV['COCKPIT_CACHE_ENABLED'] !== 1) {
+        if (($_COOKIE['nocache'] ?? '') === '1' || (int) $_ENV['COCKPIT_CACHE_ENABLED'] !== 1) {
             return $fetch() ?: null;
         }
 
