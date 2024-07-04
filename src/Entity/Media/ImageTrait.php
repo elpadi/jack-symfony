@@ -10,6 +10,9 @@ trait ImageTrait
     protected static $sizeCacheHours = 24 * 7;
     protected static $sizeCacheVersion = 1;
 
+    /**
+     * @return array{width: int, height: int}
+     */
     protected function getImageDims(string $filePath): array
     {
         $cache = new FilesystemAdapter();

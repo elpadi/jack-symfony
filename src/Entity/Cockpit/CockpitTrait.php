@@ -6,6 +6,7 @@ use App\Model\Media\Factory as MediaFactory;
 use App\Model\Media\MediaInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
+use InvalidArgumentException;
 
 trait CockpitTrait
 {
@@ -90,7 +91,7 @@ trait CockpitTrait
         return $cache->get(
             $key,
             function (ItemInterface $item) use ($fetch) {
-                $item->expiresAfter(3600 * ($_ENV['DATA_CACHE_TTL_IN_HOURS'] ?? static::$defaultDataCacheTtlInHours));
+                $item->expiresAfter(3600 * intval($_ENV['DATA_CACHE_TTL_IN_HOURS'] ?? static::$defaultDataCacheTtlInHours));
                 return $fetch();
             }
         );

@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use RuntimeException;
-use ReflectionClass;
-use Throwable;
 use Symfony\Component\HttpFoundation\{
     Request,
     Response,
-    RedirectResponse
 };
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,50 +13,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Bridge\Twig\Extension\FormExtension;
-use Symfony\Bridge\Twig\Form\TwigRendererEngine;
-use Twig\RuntimeLoader\FactoryRuntimeLoader;
-use Twig\{
-    TwigFunction,
-    TwigFilter
-};
-use cebe\markdown\Markdown;
 use App\Entity\Pages\{
     Page,
     Home as HomePage,
     Event as EventPage,
     Contact as ContactPage,
-    Issue as IssuePage
+    Issue as IssuePage,
+    IssueNotFoundException,
 };
-use App\Exception\ItemNotFoundException;
-use App\Helpers\Twig as TwigHelper;
 
 use function Stringy\create as s;
 use function Functional\last;
 
 class FrontendController extends AbstractController
 {
-    protected function enableMarkdownTemplates(): void
-    {
-        $twig = $this->get('twig');
-        $twig->addFunction(new TwigFunction('region', function ($name) {
-            return (new Markdown())->parse(file_get_contents(static::getTemplateDir() . "/regions/$name.md"));
-        }));
-        $twig->addFilter(new TwigFilter('md', function ($text) {
-            return (new Markdown())->parse($text);
-        }));
-        $twig->addFilter(new TwigFilter('mdp', function ($text) {
-            return (new Markdown())->parseParagraph($text);
-        }));
-    }
-
     /**
      * @throws RuntimeException The page template was not found.
      */
     protected function loadPage(string $path, array $data): Response
     {
-        $twigLoader = $this->get('twig')->getLoader();
-        TwigHelper::init($this->get('twig'));
+        $templatesDir = __DIR__ . '/../../templates';
 
         $tplPaths = [
             "routes/$path",
@@ -68,19 +41,19 @@ class FrontendController extends AbstractController
 
         foreach ($tplPaths as $tplPath) {
             $tpl = "$tplPath.html.twig";
-            if ($twigLoader->exists($tpl)) {
+            if (is_readable("$templatesDir/$tpl")) {
                 $data['routeName'] = $path;
                 $data['tpl'] = str_replace(['routes/', '/'], ['', '-'], $tplPath);
                 return $this->render($tpl, $data);
             }
         }
+
         throw new RuntimeException("Could not find a template.");
     }
 
     protected function page(string $path, $dataOrPage): Response
     {
         $data = is_array($dataOrPage) ? $dataOrPage : $dataOrPage->getPageData();
-        $this->enableMarkdownTemplates();
         return $this->loadPage($path, $data);
     }
 
@@ -149,7 +122,7 @@ class FrontendController extends AbstractController
         $path = (string) s(__FUNCTION__)->snakeize()->replace('_', '/');
         try {
             $issuePage->fetchIssue($id, $slug);
-        } catch (ItemNotFoundException $e) {
+        } catch (IssueNotFoundException $e) {
             throw $this->createNotFoundException('Could not find the specified issue.');
         }
         return $this->page($path, $issuePage);
