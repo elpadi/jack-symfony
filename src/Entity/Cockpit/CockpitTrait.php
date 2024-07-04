@@ -9,7 +9,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 trait CockpitTrait
 {
-    protected static $dataCacheHours = 24;
+    protected static $defaultDataCacheTtlInHours = 2;
 
     protected function fetchCockpitCollectionEntries(string $collectionName): array
     {
@@ -90,7 +90,7 @@ trait CockpitTrait
         return $cache->get(
             $key,
             function (ItemInterface $item) use ($fetch) {
-                $item->expiresAfter(3600 * static::$dataCacheHours);
+                $item->expiresAfter(3600 * ($_ENV['DATA_CACHE_TTL_IN_HOURS'] ?? static::$defaultDataCacheTtlInHours));
                 return $fetch();
             }
         );
