@@ -58,24 +58,25 @@ class FrontendController extends AbstractController
     }
 
     /**
+     * @Route("/{slug}", name="page")
+     */
+    public function defaultPage(string $slug, Page $page): Response
+    {
+        $pageName = (string) s($slug)->camelize();
+
+        if ($pageName === 'new') {
+            $pageName = 'pageNew';
+        }
+
+        return $this->page($pageName, $page);
+    }
+
+    /**
      * @Route("/", name="home", priority=2)
      */
     public function home(HomePage $page): Response
     {
         return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/jbpc", name="jbpc", priority=2)
-     */
-    public function jbpc(): Response
-    {
-        return $this->page(__FUNCTION__, [
-            'meta' => [
-                'title' => 'Jack Black Pussy Cat',
-                'description' => 'New issue',
-            ],
-        ]);
     }
 
     /**
@@ -134,20 +135,6 @@ class FrontendController extends AbstractController
     public function model(string $slug, Page $page): Response
     {
         return $this->page(__FUNCTION__, $page);
-    }
-
-    /**
-     * @Route("/{slug}", name="page")
-     */
-    public function defaultPage(string $slug, Page $page): Response
-    {
-        $pageName = (string) s($slug)->camelize();
-
-        if ($pageName === 'new') {
-            $pageName = 'pageNew';
-        }
-
-        return $this->page($pageName, $page);
     }
 
     public function error(\Throwable $exception, Page $page): Response
