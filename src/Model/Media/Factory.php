@@ -2,6 +2,8 @@
 
 namespace App\Model\Media;
 
+use RuntimeException;
+
 class Factory
 {
     public function createFromPath(string $path): MediaInterface
@@ -15,6 +17,8 @@ class Factory
         if ($this->isVideo($ext)) {
             return new Video($path);
         }
+
+        throw new RuntimeException("Could not create media from path $path.");
     }
 
     private function isImage(string $fileExtension): bool

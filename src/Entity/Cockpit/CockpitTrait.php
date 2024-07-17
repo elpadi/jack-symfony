@@ -6,10 +6,11 @@ use App\Model\Media\Factory as MediaFactory;
 use App\Model\Media\MediaInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Contracts\Cache\ItemInterface;
+use InvalidArgumentException;
 
 trait CockpitTrait
 {
-    protected static $dataCacheHours = 24;
+    protected static $defaultDataCacheTtlInHours = 2;
 
     protected function fetchCockpitCollectionEntries(string $collectionName): array
     {
@@ -83,14 +84,14 @@ trait CockpitTrait
             return $data ? json_decode($data, true) : null;
         };
 
-        if ((int) $_ENV['COCKPIT_CACHE_ENABLED'] !== 1) {
+        if (($_COOKIE['nocache'] ?? '') === '1' || (int) $_ENV['COCKPIT_CACHE_ENABLED'] !== 1) {
             return $fetch() ?: null;
         }
 
         return $cache->get(
             $key,
             function (ItemInterface $item) use ($fetch) {
-                $item->expiresAfter(3600 * static::$dataCacheHours);
+                $item->expiresAfter(3600 * intval($_ENV['DATA_CACHE_TTL_IN_HOURS'] ?? static::$defaultDataCacheTtlInHours));
                 return $fetch();
             }
         );

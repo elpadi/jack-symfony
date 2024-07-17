@@ -1,0 +1,20 @@
+body[data-route-name="dareToDream2024"] #page-content .text-content {
+    padding: 0;
+    margin: 0 auto;
+}
+
+body[data-route-name="dareToDream2024"] #page-content .layouts img {
+    margin-bottom: 5rem;
+}
+
+body[data-route-name="dareToDream2024"] #page-content .layouts img:first-child {
+    margin-bottom: 10rem;
+}
+
+body[data-route-name="dareToDream2024"] #page-content .layouts img:last-of-type {
+    margin-top: 10rem;
+}
+
+body[data-route-name="dareToDream2024"] #page-content {
+    padding-bottom: 5rem;
+}

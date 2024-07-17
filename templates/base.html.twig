@@ -63,7 +63,7 @@
 
 	{% block intro %}
         {% if hasIntro and intro is defined %}
-        <aside id="intro" data-end-url="{{ path(intro.endRoute) }}">
+        <aside id="intro" data-end-url="{{ intro.endRoute }}">
             <noscript>
                 {% for img in intro.images %}
                 {% include 'partial/image.html.twig' %}

@@ -40,7 +40,7 @@ class Item
 
     public static function createFromUrl(string $url, array $rawItem): self
     {
-        return new static(
+        return new Item(
             $rawItem['title'],
             'none',
             $url,
@@ -57,7 +57,7 @@ class Item
         } catch (Throwable $e) {
             $url = '/';
         }
-        return new static(
+        return new Item(
             $rawItem['title'],
             $route,
             $url,
